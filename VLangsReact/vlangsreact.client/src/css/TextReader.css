@@ -1,0 +1,30 @@
+.text-reader {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    font-family: sans-serif;
+    user-select: none;
+    padding: 1rem;
+    color: #ffffff;
+}
+
+    .text-reader span {
+        cursor: pointer;
+        white-space: pre-wrap;
+        color: white;
+    }
+
+    .text-reader .highlight {
+        background-color: #ff0000;
+        border-radius: 4px;
+        padding: 0 2px;
+    }
+
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.ltr {
+    direction: ltr;
+    text-align: left;
+}
