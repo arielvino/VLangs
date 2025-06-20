@@ -1,14 +1,35 @@
-import './css/App.css';
-import TextReader from './TextReader';
+import { useState } from 'react';
+import TabsMenu from './TabsMenu';
+import { Box, useTheme } from '@mui/material';
+import VLangsAppBar from './AppBar';
 
 function App() {
-    const sampleText = `The quick brown fox jumps over the lazy dog. The dog, not amused, barked back at the fox. 
-Meanwhile, another quick fox watched silently from the shadows. Quick reflexes are common among foxes.`;
- `Hello there! This is a test. Click any word (not punctuation) to highlight it. "Cool," right?`;
+    type Activity = 'tabs'
+
+    const [activity, setActivity] = useState<Activity>('tabs');
 
     return (
-        <TextReader text={sampleText} />
-    );
+        <>
+            <VLangsAppBar />
+            <Box
+                bgcolor="background.default"
+                color="text.primary"
+                sx={{
+                    display: 'grid',
+                    placeItems: 'center',
+                    height: '100vh',
+                }
+                }>
+
+                {
+                    {
+                        tabs: <TabsMenu />
+                    }
+                    [activity]
+                }
+            </Box >
+        </>
+    )
 }
 
 export default App;

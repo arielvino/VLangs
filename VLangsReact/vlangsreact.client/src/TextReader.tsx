@@ -4,6 +4,7 @@ import WordTokenComponent from './WordTokenComponent';
 import NonWordTokenComponent from './NonWordTokenComponent';
 import SelectedWordsList from './SelectedWordsList';
 import TranslationPopup from './TranslationPopup';
+import { Box } from '@mui/material';
 
 interface TextReaderProps {
     text: string;
@@ -100,7 +101,7 @@ const TextReader: React.FC<TextReaderProps> = ({ text }) => {
     };
 
     return (
-        <div className="text-reader ltr">
+        <Box maxWidth={600}>
             {tokens.map((token, i) =>
                 token.isWord ? (
                     <WordTokenComponent
@@ -124,7 +125,7 @@ const TextReader: React.FC<TextReaderProps> = ({ text }) => {
                     onClose={() => setPopupData(null)}
                 />
             )}
-        </div>
+        </Box>
     );
 };
 

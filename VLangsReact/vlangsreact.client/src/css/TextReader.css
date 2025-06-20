@@ -4,19 +4,21 @@
     font-family: sans-serif;
     user-select: none;
     padding: 1rem;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
     .text-reader span {
+        border-radius: 4px;
         cursor: pointer;
         white-space: pre-wrap;
-        color: white;
+    }
+
+    .text-reader .word:hover {
+        background-color: var(--hover-component);
     }
 
     .text-reader .highlight {
-        background-color: #ff0000;
-        border-radius: 4px;
-        padding: 0 2px;
+        background-color: var(--toggle-color);
     }
 
 .rtl {

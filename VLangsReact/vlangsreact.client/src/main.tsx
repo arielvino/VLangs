@@ -1,10 +1,20 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './css/index.css'
 import App from './App.tsx'
+import { CssBaseline, GlobalStyles } from '@mui/material'
+import { ThemeWrapper } from './themes/ThemeManager.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+    <StrictMode>
+        <ThemeWrapper >
+            <CssBaseline />
+            <GlobalStyles styles={{
+                'responsive': {
+                    transform: 'scaling(1.3)'
+                }
+            }} />
+
+            <App />
+        </ThemeWrapper>
+    </StrictMode>,
 )
