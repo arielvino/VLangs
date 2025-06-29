@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Google.Apis.Translate.v2;
-using Google.Apis.Services;
-using Google.Cloud.Translation.V2;
-using System.Security;
 
 namespace VLangsReact.Server.Controllers
 {
@@ -11,7 +7,7 @@ namespace VLangsReact.Server.Controllers
     public class TranslateController : ControllerBase
     {
         [HttpGet("google")]
-        public IActionResult Translate(string word, string targetLang="he", string sourceLang="en")
+        public IActionResult Translate(string word, string targetLang, string sourceLang)
         {
             return Ok(new
             {

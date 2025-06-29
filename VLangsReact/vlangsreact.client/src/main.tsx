@@ -1,20 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import { CssBaseline, GlobalStyles } from '@mui/material'
-import { ThemeWrapper } from './themes/ThemeManager.tsx'
+import App from './ui/App.tsx'
+import { CssBaseline } from '@mui/material'
+import { ThemeWrapper } from './ui/themes/ThemeManager.tsx'
+import { LanguageProvider } from './ui/localization/LanguageManager.tsx'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeWrapper >
-            <CssBaseline />
-            <GlobalStyles styles={{
-                'responsive': {
-                    transform: 'scaling(1.3)'
-                }
-            }} />
-
-            <App />
-        </ThemeWrapper>
+        <LanguageProvider>
+            <ThemeWrapper >
+                <CssBaseline />
+                <App />
+            </ThemeWrapper>
+        </LanguageProvider>
     </StrictMode>,
 )

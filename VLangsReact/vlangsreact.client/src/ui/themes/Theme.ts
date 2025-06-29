@@ -1,27 +1,19 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { createTheme, ThemeProvider, type PaletteOptions } from '@mui/material/styles';
+import type { PaletteOptions } from "@mui/material";
 
-const THEME_STORAGE_KEY = 'theme';
+export type Theme = 'light' | 'dark';
 
-type Theme = 'light' | 'dark';
-
-// Define your color palettes
-const palettes: Record<Theme, PaletteOptions> = {
+export const palettes: Record<Theme, PaletteOptions> = {
     light: {
         mode: 'light',
         primary: {
-            main: '#1976d2',
-            light: '#42a5f5',
-            dark: '#1565c0',
+            main: '#3333ff',
         },
         secondary: {
-            main: '#dc004e',
-            light: '#ff5983',
-            dark: '#9a0036',
+            main: '#008888',
         },
         background: {
-            default: '#ffffff',
-            paper: '#f5f5f5',
+            default: '#bbccff',
+            paper: '#ffffff',
         },
         text: {
             primary: '#000000',
@@ -32,14 +24,14 @@ const palettes: Record<Theme, PaletteOptions> = {
     dark: {
         mode: 'dark',
         primary: {
-            main: '#aa00bb',
+            main: '#cc00ff',
         },
         secondary: {
             main: '#00ccff',
         },
         background: {
             default: '#121212',
-            paper: '#1e1e1e',
+            paper: '#2e2e2e',
         },
         text: {
             primary: '#ffffff',
@@ -49,7 +41,7 @@ const palettes: Record<Theme, PaletteOptions> = {
     },
 };
 
-const baseThemeConfig = {
+export const baseThemeConfig = {
     typography: {
         fontFamily: [
             '-apple-system',
@@ -111,40 +103,4 @@ const baseThemeConfig = {
             },
         },
     },
-};
-
-const createAppTheme = (mode: Theme) => {
-    return createTheme({
-        ...baseThemeConfig,
-        palette: palettes[mode],
-    });
-};
-
-const ThemeModeContext = createContext<{
-    mode: Theme;
-    toggleTheme: () => void;
-}>({ mode: 'light', toggleTheme: () => { } });
-
-export const useThemeMode = () => useContext(ThemeModeContext);
-
-export const ThemeWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [mode, setMode] = useState<Theme>(() => {
-        return (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || 'light';
-    });
-
-    const toggleTheme = () => {
-        setMode((prev) => {
-            const next = prev === 'light' ? 'dark' : 'light';
-            localStorage.setItem(THEME_STORAGE_KEY, next);
-            return next;
-        });
-    };
-
-    const theme = useMemo(() => createTheme({ palette: palettes[mode] }), [mode]);
-
-    return (
-        <ThemeModeContext.Provider value={{ mode, toggleTheme }}>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </ThemeModeContext.Provider>
-    );
 };

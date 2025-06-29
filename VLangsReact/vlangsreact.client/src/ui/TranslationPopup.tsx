@@ -1,3 +1,4 @@
+import { Paper, Typography, useTheme } from '@mui/material';
 import React, { useEffect } from 'react';
 
 interface Props {
@@ -9,35 +10,36 @@ interface Props {
 
 const TranslationPopup: React.FC<Props> = ({ translation, position, onClose, timeout = 3000 }) => {
     useEffect(() => {
-        const id = setTimeout(onClose, timeout);
+        //const id = setTimeout(onClose, timeout);
 
         const handleClickOutside = () => onClose();
         window.addEventListener('click', handleClickOutside);
 
         return () => {
-            clearTimeout(id);
+            //clearTimeout(id);
             window.removeEventListener('click', handleClickOutside);
         };
     }, [onClose, timeout]);
 
+    const theme = useTheme();
+
     return (
-        <div
-            style={{
+        <Paper elevation={4}
+            sx={{
                 position: 'absolute',
                 top: position.y + 8,
                 left: position.x,
-                backgroundColor: '#444444',
-                border: '1px solid #ccc',
-                padding: '6px 10px',
-                borderRadius: '6px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                backgroundColor: theme.palette.background.paper,
+                border: '3px solid',
+                borderColor: theme.palette.primary.main,
+                paddingY: 1,
+                paddingX: 2,
+                borderRadius: 2,
                 zIndex: 1000,
-                maxWidth: '200px',
-                color: 'white',
             }}
         >
-            {translation}
-        </div>
+            <Typography color={theme.palette.text.primary} variant={'h5'}>{translation}</Typography>
+        </Paper>
     );
 };
 

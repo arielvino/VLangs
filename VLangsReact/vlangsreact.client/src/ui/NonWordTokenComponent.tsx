@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 
 interface NonWordTokenProps {
@@ -5,7 +6,7 @@ interface NonWordTokenProps {
 }
 
 const NonWordTokenComponent: React.FC<NonWordTokenProps> = ({ text }) => {
-    return <span>{text}</span>;
+    return <Typography paddingX={0}>{text}</Typography>;
 };
 
 export default NonWordTokenComponent;

@@ -1,6 +1,6 @@
-// FileUpload.tsx
 import { Button } from '@mui/material';
 import React, { useRef } from 'react';
+import { useDictionary } from './localization/Strings'
 
 type Props = {
     onFileSelect: (file: File) => void;
@@ -25,7 +25,7 @@ const FileUpload: React.FC<Props> = ({ onFileSelect }) => {
                 onChange={handleChange}
             />
             <Button variant="outlined" size='small' fullWidth onClick={handleClick}>
-                Choose File
+                {useDictionary().choose_file}
             </Button>
         </>
     );
