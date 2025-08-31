@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /VLangsReact/VLangsReact.Server/Secrets.cs
+/VLangsReact.Server/Secrets.cs
