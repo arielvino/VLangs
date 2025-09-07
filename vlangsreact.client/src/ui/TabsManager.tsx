@@ -1,17 +1,16 @@
 ﻿import React, { useEffect, useState } from 'react';
 import type { TabInfo } from '../data/models/TabInfo';
-import PdfPageReader from './activities/reading/PdfPageReader';
-import { Box, Button, IconButton, Slider, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Button, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
-import { getDirection, LANGUAGE_OPTIONS, type LanguageOption } from './activities/tab_creation/LanguageSelector';
+import { LANGUAGE_OPTIONS, type LanguageOption } from './activities/tab_creation/LanguageSelector';
 import LanguageSelect from './activities/tab_creation/LanguageSelector';
 import FileUpload from './activities/tab_creation/FileUpload';
-import { ArrowBackRounded, ArrowBackTwoTone, ArrowForwardRounded, ArrowForwardTwoTone, ListAltTwoTone } from '@mui/icons-material';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import idbManager from '../data/storage/idbStorage';
 import type { StorageInterface } from '../data/storage/StorageInterface';
 import { useDictionary } from './localization/Strings';
+import { ListAltTwoTone } from '@mui/icons-material';
 
 GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -258,93 +257,6 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                 {dict.ok}
             </Button>
             <Button onClick={onCancel}>{dict.cancel}</Button>
-        </Stack >
-    );
-};
-
-interface ReadTabProps {
-    id: string;
-    onBackPressed: () => void;
-}
-
-export const ReadTab: React.FC<ReadTabProps> = ({ id, onBackPressed }) => {
-    const [tab, setTab] = useState<TabInfo | undefined>();
-    const [page, setPage] = useState<number>(0);
-    const [content, setContent] = useState<ArrayBuffer | undefined>(undefined);
-
-    const dict = useDictionary();
-    const theme = useTheme();
-
-    useEffect(() => {
-        storage.getTab(id).then(tab => {
-            setTab(tab);
-            if (tab?.sourceType === 'local') {
-                storage.loadFile(tab.id)
-                    .then(data => {
-                        if (data) {
-                            if (data instanceof ArrayBuffer) {
-                                setContent(data);
-                                setPage(tab.page)
-                            }
-                        } else {
-                            console.error('File not found in IndexedDB');
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error loading file:', err);
-                    });
-            }
-        });
-    }, [id]);
-
-    useEffect(() => {
-        if (page) {
-            storage.updateTab(id, { page: page })
-        }
-    }, [page])
-
-    return (
-        <Stack spacing={2} margin={2} alignItems={'center'} maxWidth={600}>
-            <Stack spacing={1} direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'} sx={{ padding: 1 }} width='100%' position='static'>
-                <Typography variant="h6" textAlign={'center'}>{tab?.name}</Typography>
-                <Box flexGrow={1} />
-                <IconButton onClick={onBackPressed} sx={{
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.background.paper,
-                    ":hover": {
-                        bgcolor: theme.palette.primary.main + ' !important',
-                    }
-                }}>{dict.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardRounded />}</IconButton>
-            </Stack>
-            {
-                tab && content ? <>
-                    <Slider
-                        aria-label="Page Number"
-                        value={page}
-                        onChange={(_e, value) => setPage(value)}
-                        valueLabelDisplay="auto"
-                        shiftStep={10}
-                        step={1}
-                        min={1}
-                        max={tab?.totalPages}
-                    />
-                    <TextField
-                        label={dict.page}
-                        type="text"
-                        value={page}
-                        onChange={(e) => setPage(Number(e.target.value))}
-                        sx={{
-                            '& input': {
-                                textAlign: 'center',
-                            },
-                        }}
-                        size='small'
-                    />
-                    <Button variant={'text'} size={'large'} onClick={() => { if (page > 1) setPage(page - 1); }}>{getDirection(tab.sourceLanguage as LanguageOption) === 'ltr' ? <><ArrowBackTwoTone /> {dict.previous_page}</> : <> {dict.previous_page}<ArrowForwardTwoTone /></>}</Button>
-                    <PdfPageReader sourceLang={tab.sourceLanguage} targetLang={tab.targetLanguage} content={content} pageNumber={page} tabId={id} />
-                    <Button variant={'text'} size={'large'} onClick={() => { setPage(page + 1) }}>{getDirection(tab.sourceLanguage as LanguageOption) === 'rtl' ? <><ArrowBackTwoTone /> {dict.next_page}</> : <> {dict.next_page}<ArrowForwardTwoTone /></>}</Button>
-                </> : ''
-            }
         </Stack >
     );
 };

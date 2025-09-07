@@ -10,7 +10,7 @@ import { getDirection, type LanguageOption } from '../tab_creation/LanguageSelec
 const storage: StorageInterface = IdbStorage;
 
 interface TextReaderProps {
-    text: string[];
+    paragraphs: string[];
     sourceLanguage: string;
     targetLanguage: string;
     tabId: string;
@@ -45,9 +45,9 @@ const splitText = (text: string): WordToken[] => {
     return tokens;
 };
 
-const TextReader: React.FC<TextReaderProps> = ({ text, sourceLanguage, targetLanguage, tabId }) => {
+const TextReader: React.FC<TextReaderProps> = ({ paragraphs, sourceLanguage, targetLanguage, tabId }) => {
     const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set());
-    const tokenGroups: WordToken[][] = text.map(paragraph => splitText(paragraph));
+    const tokenGroups: WordToken[][] = paragraphs.map(paragraph => splitText(paragraph));
     const [popupData, setPopupData] = useState<{
         word: string;
         translation: string;

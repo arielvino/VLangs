@@ -13,9 +13,14 @@ interface AppDB extends DBSchema {
         value: ArrayBuffer;
     };
     words: {
-        key: [string, string];
+        key: [string, string];// [tabId, word]
         value: WordEntry;
         indexes: { 'by-tab': string };
+    };
+    pageTexts: {
+        key: [string, number]; // [tabId, pageNum]
+        value: { tabId: string; pageNum: number; text: string };
+        indexes: { 'by-file': string };
     };
 }
 
@@ -27,6 +32,8 @@ const dbPromise =()=> openDB<AppDB>(DB_NAME, 1, {
         db.createObjectStore('files');
         const wordStore = db.createObjectStore('words', { keyPath: ['tabId', 'word'] });
         wordStore.createIndex('by-tab', 'tabId');
+        const pageTextStore = db.createObjectStore('pageTexts', { keyPath: ['tabId', 'pageNum'] });
+        pageTextStore.createIndex('by-file', 'tabId');
     },
 });
 
@@ -126,6 +133,33 @@ class IdbStorage implements StorageInterface {
         const db = await dbPromise();
         const tx = db.transaction('words', 'readwrite');
         const index = tx.store.index('by-tab');
+        for await (const cursor of index.iterate(tabId)) {
+            cursor.delete();
+        }
+        await tx.done;
+        return true;
+    }
+
+    // === Page Texts (OCR cache) ===
+    async savePageText(tabId: string, pageNum: number, text: string): Promise<boolean> {
+        const db = await dbPromise();
+        await db.put('pageTexts', { tabId, pageNum, text });
+        return true;
+    }
+    async loadPageText(tabId: string, pageNum: number): Promise<string | undefined> {
+        const db = await dbPromise();
+        const entry = await db.get('pageTexts', [tabId, pageNum]);
+        return entry?.text;
+    }
+    async deletePageText(tabId: string, pageNum: number): Promise<boolean> {
+        const db = await dbPromise();
+        await db.delete('pageTexts', [tabId, pageNum]);
+        return true;
+    }
+    async deleteAllPageTexts(tabId: string): Promise<boolean> {
+        const db = await dbPromise();
+        const tx = db.transaction('pageTexts', 'readwrite');
+        const index = tx.store.index('by-file');
         for await (const cursor of index.iterate(tabId)) {
             cursor.delete();
         }

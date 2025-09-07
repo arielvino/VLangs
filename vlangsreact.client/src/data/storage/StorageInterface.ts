@@ -22,4 +22,10 @@ export interface StorageInterface {
     getWordsByTab(tabId: string): Promise<string[]>;
     getWordEntriesByTab(tabId: string): Promise<WordEntry[]>;
     deleteWordsByTab(tabId: string): Promise<boolean>;
+
+    // OCR cache
+    savePageText(tabId: string, pageNum: number, text: string): Promise<boolean>;
+    loadPageText(tabId: string, pageNum: number): Promise<string | undefined>;
+    deletePageText(tabId: string, pageNum: number): Promise<boolean>;
+    deleteAllPageTexts(tabId: string): Promise<boolean>;
 }

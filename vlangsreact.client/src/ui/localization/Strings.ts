@@ -29,6 +29,7 @@ const strings = {
         tabs: 'Tabs',
         no_words_yet: 'There are no words yet',
         words_list: 'New learned Words',
+        first_time_page_loaded_message: 'If this page is loaded for the first time - it may take a few seconds.',
     },
     he: {
         languages: {
@@ -56,6 +57,7 @@ const strings = {
         tabs: 'כרטיסיות',
         no_words_yet: 'עדיין אין פה כלום',
         words_list: 'מילים חדשות שנלמדו',
+        first_time_page_loaded_message: 'אם העמוד הזה נטען בפעם הראשונה - זה עלול לקחת כמה שניות.',
     }
 }
 

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ReadTab, TabCreation, TabsList } from './TabsManager';
+import { TabCreation, TabsList } from './TabsManager';
 import { Box, Paper } from '@mui/material';
 import VLangsAppBar from './AppBar';
 import { useTheme } from '@mui/material';
 import LandingScreen from './LandingScreen';
 import WordsList from './WordsList';
+import { ReadTab } from './activities/reading/ReadTab';
 
 function App() {
     type Activity =
@@ -73,7 +74,7 @@ function App() {
 
                     {activity.name === 'read_tab' && (
                         <ReadTab
-                            id={activity.param}
+                            tabId={activity.param}
                             onBackPressed={() => setActivity({ name: 'tabs_list', param: '' })}
                         />
                     )}
