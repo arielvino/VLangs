@@ -20,7 +20,7 @@ function App() {
     const useActivity = () => {
         const [activity, setActivity] = useState<Activity>(() => {
             const saved = localStorage.getItem(ACTIVITY_STORAGE_KEY);
-            return saved ? JSON.parse(saved) as Activity : { name: 'tabs_list', param: '' };
+            return saved ? JSON.parse(saved) as Activity : { name: 'landing_screen', param: '' };
         });
 
         useEffect(() => {
@@ -44,7 +44,7 @@ function App() {
                     display: 'grid',
                     placeItems: 'center',
                     minHeight: '100vh',
-                    padding:2,
+                    padding: 2,
                 }}
             >
                 <Paper
@@ -57,7 +57,11 @@ function App() {
                     }}>
 
                     {activity.name === 'landing_screen' && (
-                        <LandingScreen />
+                        <LandingScreen
+                            onNavigateToTabsMenu={() => {
+                                setActivity({ name: 'tabs_list', param: '' })
+                            }}
+                        />
                     )}
 
                     {activity.name === 'tabs_list' && (

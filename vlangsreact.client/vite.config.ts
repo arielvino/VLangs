@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import child_process from 'child_process';
 import { env } from 'process';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== ''
@@ -56,6 +57,21 @@ export default defineConfig({
         https: {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
+        },
+        headers: {
+            "content-security-policy": "default-src 'self'; style-src 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval' 'sha256-Z2/iFzh9VMlVkEOar1f/oSHWwQk3ve1qk/C2WdsC4Xk='; connect-src 'self' data:"
         }
-    }
+    },
+    build: {
+        rollupOptions: {
+            plugins: [
+                visualizer({
+                    filename: 'stats.html',
+                    template: 'treemap', // "sunburst" | "treemap" | "network"
+                    gzipSize: true,
+                    brotliSize: true,
+                }),
+            ],
+        },
+    },
 })

@@ -12,7 +12,7 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("Content-Security-Policy",
-        "default-src 'self'; script-src 'self'; script-src-elem 'self' https://cdnjs.cloudflare.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; img-src 'self' data:;");
+        "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' data:;style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
     await next();
 });
 

@@ -7,6 +7,7 @@ namespace VLangsReact.Server.Controllers
     public class TranslateController : ControllerBase
     {
         [HttpGet("google")]
+        [CheckReferrer]
         public IActionResult Translate(string word, string targetLang, string sourceLang)
         {
             return Ok(new

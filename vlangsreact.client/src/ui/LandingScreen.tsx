@@ -1,8 +1,16 @@
+import { Button, Stack } from "@mui/material";
 import React from "react";
 
-const LandingScreen: React.FC = () => {
+interface LandingScreenProps {
+    onNavigateToTabsMenu: () => void
+}
+
+const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) => {
     return (
-        <p>Hello world!</p>
+        <Stack direction={"column"} spacing={2}>
+            <p>Hello world!</p>
+            <Button onClick={onNavigateToTabsMenu} >*START*</Button>
+        </Stack>
     );
 }
 
