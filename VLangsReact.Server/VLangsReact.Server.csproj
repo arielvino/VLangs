@@ -4,9 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\vlangsreact.client</SpaRoot>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <SpaRoot>..\vlangsreact.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:59929</SpaProxyServerUrl>
+    <UserSecretsId>d340c7bd-5e7d-48d8-8917-23ccc77fc311</UserSecretsId>
   </PropertyGroup>
 
 	<Target Name="CopyReactBuildToWwwroot" AfterTargets="Build">
@@ -22,14 +24,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Include="dockerfile" />
-	</ItemGroup>
-
-	<ItemGroup>
     <PackageReference Include="Google.Cloud.Translation.V2" Version="3.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>9.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
   </ItemGroup>
 
