@@ -18,7 +18,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "GOOGLE_TRANSLATE_API_KEY": "AIzaSyCfx7va2ksKMrq6NI8Di9GO567TwMaVdkM"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7108;http://localhost:5038"
@@ -49,10 +48,9 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080",
-        "GOOGLE_TRANSLATE_API_KEY": "AIzaSyCfx7va2ksKMrq6NI8Di9GO567TwMaVdkM"
+        "ASPNETCORE_HTTP_PORTS": "8080"
       },
-      "publishAllPorts": true,
+      "publishAllPorts": false,
       "useSSL": true
     }
   },
