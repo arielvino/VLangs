@@ -1,0 +1,9 @@
+{
+  "name": "ASP.NET",
+  "type": "coreclr",
+  "request": "launch",
+  "program": "${workspaceFolder}/server/bin/Debug/net8.0/Server.dll",
+  "args": [],
+  "cwd": "${workspaceFolder}/server",
+  "console": "integratedTerminal"
+}

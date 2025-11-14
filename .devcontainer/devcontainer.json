@@ -1,0 +1,8 @@
+{
+  "name": "vlangs-dev",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "server",
+  "workspaceFolder": "/src",
+  "forwardPorts": [3000, 5000],
+  "mounts": ["source=${localWorkspaceFolder},target=/src,type=bind"]
+}

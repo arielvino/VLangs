@@ -1,14 +1,43 @@
-export type SourceType = 'local'// | 'remote';
-export type Format = 'pdf'// |'epub' | 'paste';
+import type { TranslationProviderType } from "../storage/TranslationProviderType"
 
-export interface TabInfo {
-    id: string;
-    name: string;
-    sourceLanguage: string;
-    targetLanguage: string;
-    sourceType: SourceType;
-    format: Format;
-    page: number;
-    totalPages: number;
-    sourceHint?: string; // e.g. file name or URL
+export type TabInfo =
+    | BookTabInfo
+    | AdventureTabInfo
+    | NoobsTabInfo
+
+interface BaseTabInfo {
+    id: string
+    title: string
+    mode: "book" | "adventure" | "noobs"
+
+    translationProvider: TranslationProviderType
+
+    createdAt: Date
+    lastOpenedAt: Date
+}
+
+export interface BookTabInfo extends BaseTabInfo {
+    mode: "book"
+    modeProps: {
+        sourcePath: string
+        currentPage: number
+        totalPages: number
+    }
+}
+
+export interface AdventureTabInfo extends BaseTabInfo {
+    mode: "adventure"
+    modeProps: {
+        storySeed: string
+        currentSceneId: string
+        choicesMade: string[]
+        currentChoices?:string[]
+    }
+}
+
+export interface NoobsTabInfo extends BaseTabInfo {
+    mode: "noobs"
+    modeProps: {
+        difficulty: "easy" | "medium" | "hard"
+    }
 }

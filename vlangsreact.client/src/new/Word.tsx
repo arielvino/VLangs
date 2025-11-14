@@ -3,8 +3,9 @@ import { useTab } from "./TabContext"
 import { useTheme } from "@mui/material"
 import type { WordEntry } from "../data/models/WordEntry"
 import { Box } from "@mui/system"
+import type { TranslationData } from "./TranslationData"
 
-const WordSpan: React.FC<{ word: string }> = ({ word }) => {
+const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: TranslationData, sender: HTMLElement) => void }> = ({ word, showTranslationOnParent }) => {
     const tab = useTab()
     const theme = useTheme()
     const [wordEntry, setWordEntry] = useState<WordEntry | null>(null)
@@ -19,12 +20,17 @@ const WordSpan: React.FC<{ word: string }> = ({ word }) => {
         return wordEntry ? 'inherit' : theme.palette.primary.main;
     }
 
-    const handleClick = () => {
-        if (!wordEntry) {
+    const handleClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
+        const sender = e.currentTarget  // store immediately
 
+        if (!wordEntry) {
+            // ...
+        } else {
+            // ...
         }
-        else {
-        }
+
+        const translation = await tab.getTranslationOf(word)
+        showTranslationOnParent(translation, sender)
     }
 
     useEffect(() => {

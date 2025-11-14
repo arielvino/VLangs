@@ -1,0 +1,24 @@
+import { BookProvider } from "./BookProvider.ts";
+
+export class MockPdfProvider implements BookProvider {
+    format: "mockpdf";
+    getPageCount(): number {
+        throw new Error("Method not implemented.");
+    }
+
+    async getPage(pageNumber: number): Promise<string> {
+        if (pageNumber < 0 || pageNumber >= this.pages.length) {
+            throw new Error(`Page ${pageNumber} out of range`);
+        }
+        // simulate async PDF loading
+        await new Promise(r => setTimeout(r, 100));
+        return this.pages[pageNumber];
+    }
+
+    // Internal mock pages
+    private pages = [
+        "📄 Page 1: Once upon a time there was an AI learning languages.",
+        "📄 Page 2: It dreamed of understanding every word.",
+        "📄 Page 3: And thus, VLangs was born.",
+    ]
+}

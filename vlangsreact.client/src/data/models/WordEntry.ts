@@ -1,7 +1,10 @@
-export interface WordEntry {
-    tabId: string;
-    word: string;
-    translation?: string;
-    timesAsked: number;
-    known: boolean;
+import type { TranslationData } from "../../new/TranslationData"
+
+export type WordEntry = {
+    tabId: string
+    word: string
+    translation: TranslationData
+    known: boolean
+    addedAt: Date
+    knownAt?: Date
 }
