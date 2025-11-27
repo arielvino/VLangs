@@ -1,8 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY . .
-RUN dotnet restore
-RUN dotnet publish -c Release -o /app/publish
+COPY VLangsReact.Server/ .
+WORKDIR /src
+RUN dotnet restore VLangsReact.Server.csproj
+RUN dotnet publish VLangsReact.Server.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
