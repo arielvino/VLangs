@@ -67,10 +67,10 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
                                     <Typography>{word.word}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography>{word.translation}</Typography>
+                                    <Typography>{word.translation.type === "text" ? word.translation.content : ""}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography>{word.timesAsked}</Typography>
+                                    <Typography>{word.timesAsked || 0}</Typography>
                                 </TableCell>
                             </TableRow>
                         ))}

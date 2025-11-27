@@ -7,4 +7,5 @@ export type WordEntry = {
     known: boolean
     addedAt: Date
     knownAt?: Date
+    timesAsked?: number
 }

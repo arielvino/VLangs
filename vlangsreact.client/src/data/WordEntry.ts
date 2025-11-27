@@ -1,4 +1,4 @@
-import type { TranslationData } from "./TranslationData"
+import type { TranslationData } from "../new/TranslationData"
 
 export type WordEntry = {
     word:string,
@@ -6,4 +6,5 @@ export type WordEntry = {
     known:boolean,
     addedAt: Date,
     knownAt?: Date,
+    timesAsked?: number
 }

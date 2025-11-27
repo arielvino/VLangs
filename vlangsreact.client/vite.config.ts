@@ -10,7 +10,7 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./src', import.meta.url))
         }
     },
-server: {
+    server: {
         host: true,
         port: 3000,
         strictPort: true,
@@ -24,3 +24,16 @@ server: {
             }
         }
     },
+    build: {
+        rollupOptions: {
+            plugins: [
+                visualizer({
+                    filename: 'stats.html',
+                    template: 'treemap',
+                    gzipSize: true,
+                    brotliSize: true,
+                }),
+            ],
+        },
+    },
+})

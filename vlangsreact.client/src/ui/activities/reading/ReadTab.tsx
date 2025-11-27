@@ -68,7 +68,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                         shiftStep={10}
                         step={1}
                         min={1}
-                        max={tab.totalPages}
+                        max={tab.totalPages || 100}
                     />
                     <TextField
                         label={dict.page}
@@ -82,15 +82,15 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                         }}
                         size='small'
                     />
-                    <Button variant={'text'} size={'large'} onClick={() => { if (page > 1) setPage(page - 1); }}>{getDirection(tab.sourceLanguage as LanguageOption) === 'ltr' ? <><ArrowBackTwoTone /> {dict.previous_page}</> : <> {dict.previous_page}<ArrowForwardTwoTone /></>}</Button>
-                    {text ? <TextReader sourceLanguage={tab.sourceLanguage} targetLanguage={tab.targetLanguage} tabId={tabId} paragraphs={text
+                    <Button variant={'text'} size={'large'} onClick={() => { if (page > 1) setPage(page - 1); }}>{getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'ltr' ? <><ArrowBackTwoTone /> {dict.previous_page}</> : <> {dict.previous_page}<ArrowForwardTwoTone /></>}</Button>
+                    {text ? <TextReader sourceLanguage={tab.sourceLanguage || 'en'} targetLanguage={tab.targetLanguage || 'en'} tabId={tabId} paragraphs={text
                         .split(/\n\s*\n/) // split on empty line
                         .map(p => p.trim())
                         .filter(Boolean)} /> : <>
                         <CircularProgress color="secondary" />
                             <InfoComponent message={dict.first_time_page_loaded_message} />
                     </>}
-                    <Button variant={'text'} size={'large'} onClick={() => { setPage(page + 1) }}>{getDirection(tab.sourceLanguage as LanguageOption) === 'rtl' ? <><ArrowBackTwoTone /> {dict.next_page}</> : <> {dict.next_page}<ArrowForwardTwoTone /></>}</Button>
+                    <Button variant={'text'} size={'large'} onClick={() => { setPage(page + 1) }}>{getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'rtl' ? <><ArrowBackTwoTone /> {dict.next_page}</> : <> {dict.next_page}<ArrowForwardTwoTone /></>}</Button>
                 </> : ''
             }
         </Stack >
