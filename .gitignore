@@ -364,3 +364,8 @@ FodyWeavers.xsd
 /VLangsReact/VLangsReact.Server/Secrets.cs
 /VLangsReact.Server/Secrets.cs
 /VLangsReact.Server/Properties/ServiceDependencies/VLangsReactServer - Zip Deploy/profile.arm.json
+
+# Environment variables (to prevent committing secrets)
+.env
+.env.local
+.env.*.local
