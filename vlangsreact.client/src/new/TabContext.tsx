@@ -61,18 +61,40 @@ Abends setzten sie sich ans Fenster und betrachteten den Sonnenuntergang, währe
         const existing = wordMap[word]
         if (existing) return existing.translation
 
-        // mock translation: reversed word + example
-        const data: TranslationData = {
-            type: "text", content: word.split("").reverse().join("")
+        // Use real Google Translation API
+        try {
+            const res = await fetch(`/api/translate?engine=google&word=${encodeURIComponent(word)}&sourceLang=de&targetLang=en`);
+
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({ error: 'Translation service unavailable' }));
+                console.error('Translation failed:', errorData);
+                throw new Error(errorData.error || 'Translation failed');
+            }
+
+            const responseData = await res.json();
+            const translatedText = responseData.translation as string;
+
+            const data: TranslationData = {
+                type: "text",
+                content: translatedText
+            };
+
+            // Store in wordMap
+            setWordMap(prev => ({
+                ...prev,
+                [word]: { tabId: getTabId(), word, translation: data, known: false, addedAt: new Date() }
+            }));
+
+            return data;
+        } catch (err) {
+            console.error('Error fetching translation:', err);
+            // Fallback: return the original word if translation fails
+            const fallbackData: TranslationData = {
+                type: "text",
+                content: `[Translation unavailable: ${word}]`
+            };
+            return fallbackData;
         }
-
-        // store in wordMap (if needed)
-        setWordMap(prev => ({
-            ...prev,
-            [word]: { tabId: getTabId(), word, translation: data, known: false, addedAt: new Date() }
-        }))
-
-        return data
     }
 
     return (
