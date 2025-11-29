@@ -11,141 +11,121 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
 
     const features = [
         {
-            icon: <MenuBook sx={{ fontSize: 48, color: theme.palette.primary.main }} />,
-            title: 'Read in Any Language',
-            description: 'Import PDFs and texts to read in your target language with instant translation support.'
+            icon: <MenuBook sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
+            title: 'Read Authentic Content',
+            description: 'Import your own PDFs and documents to learn from materials you love.'
         },
         {
-            icon: <Translate sx={{ fontSize: 48, color: theme.palette.primary.main }} />,
-            title: 'Click to Translate',
-            description: 'Click any word to see its translation powered by Google Translate API.'
+            icon: <Translate sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
+            title: 'Instant Translation',
+            description: 'Click any word for immediate translation and save it to your vocabulary.'
         },
         {
-            icon: <School sx={{ fontSize: 48, color: theme.palette.primary.main }} />,
-            title: 'Track Your Progress',
-            description: 'Mark words as known and track your vocabulary growth across all your reading materials.'
-        },
-        {
-            icon: <TrendingUp sx={{ fontSize: 48, color: theme.palette.primary.main }} />,
-            title: 'Smart Learning',
-            description: 'OCR support for scanned documents and automatic word tracking help you learn naturally.'
+            icon: <TrendingUp sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
+            title: 'Track Progress',
+            description: 'Monitor your vocabulary growth as you read and learn naturally.'
         }
     ];
 
     return (
         <Stack
-            spacing={4}
+            spacing={6}
             alignItems="center"
             sx={{
-                maxWidth: 800,
+                maxWidth: 900,
                 margin: '0 auto',
-                padding: 3,
-                textAlign: 'center'
+                padding: { xs: 3, sm: 4, md: 6 },
+                textAlign: 'center',
+                minHeight: 'calc(100vh - 100px)',
+                justifyContent: 'center'
             }}
         >
             {/* Hero Section */}
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ mb: 3 }}>
                 <Typography
-                    variant="h3"
+                    variant="h2"
                     component="h1"
                     gutterBottom
                     sx={{
                         fontWeight: 'bold',
                         color: theme.palette.primary.main,
-                        mb: 2
+                        mb: 2,
+                        fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem' }
                     }}
                 >
                     VLangs
                 </Typography>
                 <Typography
-                    variant="h5"
+                    variant="h4"
                     component="h2"
                     sx={{
-                        color: theme.palette.text.secondary,
-                        mb: 3
+                        color: theme.palette.text.primary,
+                        mb: 2,
+                        fontWeight: 500,
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                     }}
                 >
                     Learn Languages Through Reading
                 </Typography>
                 <Typography
-                    variant="body1"
+                    variant="h6"
                     sx={{
                         color: theme.palette.text.secondary,
-                        mb: 4,
                         maxWidth: 600,
-                        margin: '0 auto'
+                        margin: '0 auto',
+                        fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
+                        fontWeight: 400
                     }}
                 >
-                    Upload your favorite books, articles, or documents and learn a new language naturally by reading.
-                    Click any word for instant translation and track your vocabulary progress.
+                    Import PDFs, click words to translate, and track your vocabulary naturally.
                 </Typography>
             </Box>
 
-            {/* CTA Buttons */}
-            <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                spacing={2}
-                sx={{ mb: 4 }}
+            {/* CTA Button */}
+            <Button
+                variant="contained"
+                size="large"
+                onClick={onNavigateToTabsMenu}
+                sx={{
+                    px: 6,
+                    py: 2,
+                    fontSize: '1.25rem',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    borderRadius: 3,
+                    boxShadow: 4,
+                    '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: 8
+                    },
+                    transition: 'all 0.3s ease'
+                }}
             >
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={onNavigateToTabsMenu}
-                    sx={{
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        textTransform: 'none',
-                        fontWeight: 'bold'
-                    }}
-                >
-                    Get Started
-                </Button>
-                <Button
-                    variant="outlined"
-                    size="large"
-                    onClick={onNavigateToTabsMenu}
-                    sx={{
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        textTransform: 'none'
-                    }}
-                >
-                    View My Library
-                </Button>
-            </Stack>
+                Get Started
+            </Button>
 
             {/* Features Grid */}
-            <Box sx={{ width: '100%' }}>
-                <Typography
-                    variant="h5"
-                    component="h3"
-                    gutterBottom
-                    sx={{
-                        mb: 3,
-                        fontWeight: 'bold'
-                    }}
-                >
-                    Features
-                </Typography>
+            <Box sx={{ width: '100%', mt: 4 }}>
                 <Box
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                        gap: 3
+                        gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+                        gap: 4
                     }}
                 >
                     {features.map((feature, index) => (
                         <Card
                             key={index}
-                            elevation={2}
+                            elevation={0}
                             sx={{
                                 height: '100%',
-                                transition: 'transform 0.2s, box-shadow 0.2s',
+                                transition: 'all 0.3s ease',
+                                border: `2px solid ${theme.palette.divider}`,
+                                bgcolor: 'background.paper',
                                 '&:hover': {
-                                    transform: 'translateY(-4px)',
-                                    boxShadow: 4
+                                    transform: 'translateY(-8px)',
+                                    borderColor: theme.palette.primary.main,
+                                    boxShadow: 6
                                 }
                             }}
                         >
@@ -155,23 +135,25 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     textAlign: 'center',
-                                    p: 3
+                                    p: 4,
+                                    height: '100%'
                                 }}
                             >
-                                <Box sx={{ mb: 2 }}>
+                                <Box sx={{ mb: 3 }}>
                                     {feature.icon}
                                 </Box>
                                 <Typography
-                                    variant="h6"
-                                    component="h4"
+                                    variant="h5"
+                                    component="h3"
                                     gutterBottom
-                                    sx={{ fontWeight: 'bold' }}
+                                    sx={{ fontWeight: 600, mb: 2 }}
                                 >
                                     {feature.title}
                                 </Typography>
                                 <Typography
-                                    variant="body2"
+                                    variant="body1"
                                     color="text.secondary"
+                                    sx={{ lineHeight: 1.7 }}
                                 >
                                     {feature.description}
                                 </Typography>
@@ -179,37 +161,6 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                         </Card>
                     ))}
                 </Box>
-            </Box>
-
-            {/* Footer CTA */}
-            <Box sx={{ mt: 4, pt: 3, borderTop: `1px solid ${theme.palette.divider}`, width: '100%' }}>
-                <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{ fontWeight: 'bold' }}
-                >
-                    Ready to Start Learning?
-                </Typography>
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mb: 2 }}
-                >
-                    Create your first reading tab and begin your language learning journey today.
-                </Typography>
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={onNavigateToTabsMenu}
-                    sx={{
-                        px: 5,
-                        py: 1.5,
-                        fontSize: '1rem',
-                        textTransform: 'none'
-                    }}
-                >
-                    Browse Library
-                </Button>
             </Box>
         </Stack>
     );

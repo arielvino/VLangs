@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DarkModeTwoTone from '@mui/icons-material/DarkModeTwoTone';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button, Stack, useTheme } from '@mui/material';
 import { LightModeTwoTone } from '@mui/icons-material';
 import { useThemeMode } from './themes/ThemeManager'
 import { useLanguage } from './localization/LanguageManager';
@@ -19,62 +19,77 @@ const VLangsAppBar: React.FC = () => {
         <AppBar
             position="sticky"
             color='primary'
+            elevation={0}
             sx={{
                 direction: useDictionary().direction,
                 bgcolor: theme.palette.background.paper,
-                borderBottom: 0.5,
-                borderBottomColor: 'text.secondary',
-                borderBottomStyle: 'groove',
+                borderBottom: `2px solid ${theme.palette.divider}`,
+                backdropFilter: 'blur(8px)',
             }}
         >
-            <Toolbar>
-                {/* RIGHT-aligned tools */}
-                <Typography color="primary" variant="h1" sx={{ fontFamily: theme.typography.fontFamily?.at(1) }} component="div">
+            <Toolbar sx={{ py: 1 }}>
+                {/* App title */}
+                <Typography
+                    color="primary"
+                    variant="h4"
+                    sx={{
+                        fontFamily: theme.typography.fontFamily?.at(1),
+                        fontWeight: 700,
+                        letterSpacing: '-0.5px'
+                    }}
+                    component="div"
+                >
                     VLangs
                 </Typography>
 
-                {/* Spacer that pushes next items to the RIGHT */}
+                {/* Spacer */}
                 <Box sx={{ flexGrow: 1 }} />
 
-                {/* LEFT-aligned tools */}
-                <Button
-                    color="secondary"
-                    size={'small'}
-                    sx={{
-                        boxShadow: '0 0 7px ' + theme.palette.text.primary,
-                        marginInlineEnd:1,
-                        border: '2px solid',
-                        ":hover": {
-                            boxShadow: '0 0 17px ' + theme.palette.primary.main,
-                            transform: 'scale(1.05)',
-                            bgcolor: theme.palette.background.paper,
-                        },
-                    }}
-                    onClick={() => toggleLanguage()}
-                >
-                    <Typography>
+                {/* Controls */}
+                <Stack direction="row" spacing={1.5} alignItems="center">
+                    <Button
+                        color="secondary"
+                        size="medium"
+                        variant="outlined"
+                        sx={{
+                            borderWidth: 2,
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            px: 2,
+                            ":hover": {
+                                borderWidth: 2,
+                                transform: 'scale(1.05)',
+                                boxShadow: 2
+                            },
+                            transition: 'all 0.2s ease'
+                        }}
+                        onClick={() => toggleLanguage()}
+                    >
                         {useLanguage().language === 'en' ? 'עברית' : 'English'}
-                    </Typography>
-                </Button>
-                <IconButton
-                    size='small'
-                    color="secondary"
-                    sx={{
-                        boxShadow: '0 0 7px ' + theme.palette.text.primary,
-                        bgcolor: theme.palette.background.paper + ' !important',
-                        border: '2px solid',
-                        ":hover": {
-                            boxShadow: '0 0 17px ' + theme.palette.primary.main,
-                            transform: 'scale(1.05)',
-                        }
-                    }}
-                    onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')}
-                >
-                    {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
-                </IconButton>
+                    </Button>
+                    <IconButton
+                        size='medium'
+                        color="secondary"
+                        sx={{
+                            bgcolor: theme.palette.background.default,
+                            border: `2px solid ${theme.palette.secondary.main}`,
+                            borderRadius: 2,
+                            ":hover": {
+                                bgcolor: theme.palette.secondary.main,
+                                color: theme.palette.background.paper,
+                                transform: 'scale(1.05)',
+                                boxShadow: 2
+                            },
+                            transition: 'all 0.2s ease'
+                        }}
+                        onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')}
+                    >
+                        {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
+                    </IconButton>
+                </Stack>
             </Toolbar>
         </AppBar>
-
     );
 };
 

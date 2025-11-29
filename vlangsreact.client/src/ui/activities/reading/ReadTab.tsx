@@ -53,53 +53,150 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
     }
 
     return (
-        <Stack spacing={2} margin={2} alignItems={'center'} maxWidth={600}>
-            <Stack spacing={1} direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'} sx={{ padding: 1 }} width='100%' position='static'>
-                <Typography variant="h6" textAlign={'center'}>{tab.name}</Typography>
+        <Stack
+            spacing={3}
+            sx={{
+                margin: { xs: 2, sm: 3 },
+                alignItems: 'center',
+                maxWidth: 800,
+                mx: 'auto',
+                width: '100%'
+            }}
+        >
+            {/* Header with title and back button */}
+            <Stack
+                spacing={2}
+                direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'}
+                sx={{
+                    padding: 2,
+                    width: '100%',
+                    alignItems: 'center',
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    border: `2px solid ${theme.palette.divider}`,
+                    boxShadow: 2
+                }}
+            >
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: 600,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    {tab.name}
+                </Typography>
                 <Box flexGrow={1} />
-                <IconButton onClick={onBackPressed} sx={{
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.background.paper,
-                    ":hover": {
-                        bgcolor: theme.palette.primary.main + ' !important',
-                    }
-                }}>{dict.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardRounded />}</IconButton>
+                <IconButton
+                    onClick={onBackPressed}
+                    size="large"
+                    sx={{
+                        bgcolor: theme.palette.primary.main,
+                        color: theme.palette.background.paper,
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        ":hover": {
+                            bgcolor: theme.palette.primary.dark,
+                            transform: 'scale(1.05)'
+                        },
+                        transition: 'all 0.2s ease'
+                    }}
+                >
+                    {dict.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardRounded />}
+                </IconButton>
             </Stack>
 
-            <Slider
-                aria-label="Page Number"
-                value={page}
-                onChange={(_e, value) => handlePageChange(value as number)}
-                valueLabelDisplay="auto"
-                shiftStep={10}
-                step={1}
-                min={1}
-                max={tab.totalPages || 100}
-            />
-            <TextField
-                label={dict.page}
-                type="text"
-                value={page}
-                onChange={(e) => handlePageChange(Number(e.target.value))}
+            {/* Page controls */}
+            <Box
                 sx={{
-                    '& input': {
-                        textAlign: 'center',
-                    },
+                    width: '100%',
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    p: 3,
+                    border: `2px solid ${theme.palette.divider}`,
+                    boxShadow: 2
                 }}
-                size='small'
-            />
-            <Button variant={'text'} size={'large'} onClick={() => { if (page > 1) handlePageChange(page - 1); }}>
-                {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'ltr' ? <><ArrowBackTwoTone /> {dict.previous_page}</> : <> {dict.previous_page}<ArrowForwardTwoTone /></>}
-            </Button>
+            >
+                <Stack spacing={3}>
+                    <Slider
+                        aria-label="Page Number"
+                        value={page}
+                        onChange={(_e, value) => handlePageChange(value as number)}
+                        valueLabelDisplay="auto"
+                        shiftStep={10}
+                        step={1}
+                        min={1}
+                        max={tab.totalPages || 100}
+                        sx={{
+                            '& .MuiSlider-thumb': {
+                                width: 20,
+                                height: 20
+                            }
+                        }}
+                    />
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+                        <Button
+                            variant={'contained'}
+                            size={'medium'}
+                            onClick={() => { if (page > 1) handlePageChange(page - 1); }}
+                            disabled={page <= 1}
+                            sx={{ textTransform: 'none', minWidth: 120 }}
+                        >
+                            {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'ltr' ? (
+                                <><ArrowBackTwoTone sx={{ mr: 1 }} /> {dict.previous_page}</>
+                            ) : (
+                                <>{dict.previous_page} <ArrowForwardTwoTone sx={{ ml: 1 }} /></>
+                            )}
+                        </Button>
+                        <TextField
+                            label={dict.page}
+                            type="text"
+                            value={page}
+                            onChange={(e) => handlePageChange(Number(e.target.value))}
+                            sx={{
+                                width: 100,
+                                '& input': {
+                                    textAlign: 'center',
+                                    fontWeight: 600,
+                                    fontSize: '1.1rem'
+                                },
+                            }}
+                            size='small'
+                        />
+                        <Button
+                            variant={'contained'}
+                            size={'medium'}
+                            onClick={() => { if (page < (tab.totalPages || 100)) handlePageChange(page + 1); }}
+                            disabled={page >= (tab.totalPages || 100)}
+                            sx={{ textTransform: 'none', minWidth: 120 }}
+                        >
+                            {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'rtl' ? (
+                                <><ArrowBackTwoTone sx={{ mr: 1 }} /> {dict.next_page}</>
+                            ) : (
+                                <>{dict.next_page} <ArrowForwardTwoTone sx={{ ml: 1 }} /></>
+                            )}
+                        </Button>
+                    </Box>
+                </Stack>
+            </Box>
 
-            {/* Use TabProvider with LearnableText */}
-            <TabProvider tabId={tabId}>
-                <LearnableText page={page} />
-            </TabProvider>
-
-            <Button variant={'text'} size={'large'} onClick={() => { handlePageChange(page + 1) }}>
-                {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'rtl' ? <><ArrowBackTwoTone /> {dict.next_page}</> : <> {dict.next_page}<ArrowForwardTwoTone /></>}
-            </Button>
-        </Stack >
+            {/* Content area */}
+            <Box
+                sx={{
+                    width: '100%',
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    p: 3,
+                    border: `2px solid ${theme.palette.divider}`,
+                    boxShadow: 2,
+                    minHeight: 400
+                }}
+            >
+                <TabProvider tabId={tabId}>
+                    <LearnableText page={page} />
+                </TabProvider>
+            </Box>
+        </Stack>
     );
 };
