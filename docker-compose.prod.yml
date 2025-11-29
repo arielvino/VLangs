@@ -1,0 +1,11 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.server
+    ports:
+      - "80:80"
+    environment:
+      - GPT_API_KEY=${GPT_API_KEY}
+      - GOOGLE_TRANSLATE_API_KEY=${GOOGLE_TRANSLATE_API_KEY}
+      - ASPNETCORE_ENVIRONMENT=Production

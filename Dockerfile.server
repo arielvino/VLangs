@@ -8,6 +8,9 @@ RUN npm run build
 
 # Build ASP.NET backend
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+# Install Node.js for esproj
+RUN apt-get update && apt-get install -y nodejs npm && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /src
 COPY VLangsReact.Server/*.csproj ./VLangsReact.Server/
 RUN dotnet restore VLangsReact.Server/VLangsReact.Server.csproj
@@ -16,7 +19,7 @@ COPY . .
 # Copy React build output to wwwroot
 COPY --from=client-build /app/client/dist VLangsReact.Server/wwwroot
 WORKDIR /src/VLangsReact.Server
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false /p:CopyReactBuildToWwwroot=false
 
 # Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0

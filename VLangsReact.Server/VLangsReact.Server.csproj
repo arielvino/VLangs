@@ -11,7 +11,7 @@
     <UserSecretsId>d340c7bd-5e7d-48d8-8917-23ccc77fc311</UserSecretsId>
   </PropertyGroup>
 
-	<Target Name="CopyReactBuildToWwwroot" AfterTargets="Build">
+	<Target Name="CopyReactBuildToWwwroot" AfterTargets="Build" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'">
 		<Exec Command="npm install" WorkingDirectory="$(SpaRoot)" />
 		<Exec Command="npm run build" WorkingDirectory="$(SpaRoot)" />
 		<RemoveDir Directories="wwwroot" />
