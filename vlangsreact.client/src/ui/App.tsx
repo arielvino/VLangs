@@ -3,11 +3,9 @@ import { TabCreation, TabsList } from './TabsManager';
 import { Box, Paper } from '@mui/material';
 import VLangsAppBar from './AppBar';
 import { useTheme } from '@mui/material';
-//import LandingScreen from './LandingScreen';
+import LandingScreen from './LandingScreen';
 import WordsList from './WordsList';
 import { ReadTab } from './activities/reading/ReadTab';
-import { TabProvider } from '../contexts/TabContext';
-import LearnableText from './components/LearnableText';
 
 function App() {
     type Activity =
@@ -59,14 +57,11 @@ function App() {
                     }}>
 
                     {activity.name === 'landing_screen' && (
-                        //<LandingScreen
-                        //    onNavigateToTabsMenu={() => {
-                        //        setActivity({ name: 'tabs_list', param: '' })
-                        //    }}
-                        ///>
-                        <TabProvider tabId="demo">
-                            <LearnableText />
-                        </TabProvider>
+                        <LandingScreen
+                            onNavigateToTabsMenu={() => {
+                                setActivity({ name: 'tabs_list', param: '' })
+                            }}
+                        />
                     )}
 
                     {activity.name === 'tabs_list' && (
