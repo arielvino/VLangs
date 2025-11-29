@@ -27,15 +27,15 @@ const VLangsAppBar: React.FC = () => {
                 backdropFilter: 'blur(8px)',
             }}
         >
-            <Toolbar sx={{ py: 1 }}>
+            <Toolbar sx={{ py: { xs: 0.5, sm: 1 }, minHeight: { xs: 56, sm: 64 } }}>
                 {/* App title */}
                 <Typography
                     color="primary"
-                    variant="h4"
                     sx={{
                         fontFamily: theme.typography.fontFamily?.at(1),
                         fontWeight: 700,
-                        letterSpacing: '-0.5px'
+                        letterSpacing: '-0.5px',
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                     }}
                     component="div"
                 >
@@ -46,17 +46,20 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack direction="row" spacing={{ xs: 0.75, sm: 1.5 }} alignItems="center">
                     <Button
                         color="secondary"
-                        size="medium"
+                        size="small"
                         variant="outlined"
                         sx={{
                             borderWidth: 2,
                             borderRadius: 2,
                             textTransform: 'none',
                             fontWeight: 600,
-                            px: 2,
+                            px: { xs: 1, sm: 2 },
+                            py: { xs: 0.5, sm: 0.75 },
+                            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                            minWidth: { xs: 'auto', sm: 'auto' },
                             ":hover": {
                                 borderWidth: 2,
                                 transform: 'scale(1.05)',
@@ -66,15 +69,16 @@ const VLangsAppBar: React.FC = () => {
                         }}
                         onClick={() => toggleLanguage()}
                     >
-                        {useLanguage().language === 'en' ? 'עברית' : 'English'}
+                        {useLanguage().language === 'en' ? 'עב' : 'EN'}
                     </Button>
                     <IconButton
-                        size='medium'
+                        size='small'
                         color="secondary"
                         sx={{
                             bgcolor: theme.palette.background.default,
                             border: `2px solid ${theme.palette.secondary.main}`,
                             borderRadius: 2,
+                            p: { xs: 0.5, sm: 1 },
                             ":hover": {
                                 bgcolor: theme.palette.secondary.main,
                                 color: theme.palette.background.paper,
@@ -85,7 +89,7 @@ const VLangsAppBar: React.FC = () => {
                         }}
                         onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')}
                     >
-                        {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
+                        {mode === 'dark' ? <LightModeTwoTone fontSize="small" /> : <DarkModeTwoTone fontSize="small" />}
                     </IconButton>
                 </Stack>
             </Toolbar>

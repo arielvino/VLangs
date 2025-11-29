@@ -66,10 +66,10 @@ export const TabsList: React.FC<TabsListProps> = ({ createPressed, navigateToTab
             {tabs.length === 0 ? (
                 <Stack spacing={2} alignItems="center" sx={{ py: 8 }}>
                     <Typography variant="h6" color="text.secondary">
-                        No reading tabs yet
+                        {useDictionary().no_tabs_yet}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Create your first tab to start learning
+                        {useDictionary().no_tabs_desc}
                     </Typography>
                 </Stack>
             ) : (
@@ -348,7 +348,7 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                                     color="text.secondary"
                                     sx={{ mt: 1, textAlign: 'center' }}
                                 >
-                                    {newTabPath} {totalPages && `(${totalPages} pages)`}
+                                    {newTabPath} {totalPages && `(${totalPages} ${dict.pages_count})`}
                                 </Typography>
                             )}
                         </Box>

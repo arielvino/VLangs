@@ -1,6 +1,7 @@
 import { Button, Stack, Typography, Box, Card, CardContent } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { MenuBook, Translate, School, TrendingUp } from '@mui/icons-material';
+import { MenuBook, Translate, TrendingUp } from '@mui/icons-material';
+import { useDictionary } from './localization/Strings';
 
 interface LandingScreenProps {
     onNavigateToTabsMenu: () => void;
@@ -8,22 +9,23 @@ interface LandingScreenProps {
 
 const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) => {
     const theme = useTheme();
+    const dict = useDictionary();
 
     const features = [
         {
             icon: <MenuBook sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
-            title: 'Read Authentic Content',
-            description: 'Import your own PDFs and documents to learn from materials you love.'
+            title: dict.feature_read_title,
+            description: dict.feature_read_desc
         },
         {
             icon: <Translate sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
-            title: 'Instant Translation',
-            description: 'Click any word for immediate translation and save it to your vocabulary.'
+            title: dict.feature_translate_title,
+            description: dict.feature_translate_desc
         },
         {
             icon: <TrendingUp sx={{ fontSize: 56, color: theme.palette.primary.main }} />,
-            title: 'Track Progress',
-            description: 'Monitor your vocabulary growth as you read and learn naturally.'
+            title: dict.feature_progress_title,
+            description: dict.feature_progress_desc
         }
     ];
 
@@ -53,7 +55,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                         fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem' }
                     }}
                 >
-                    VLangs
+                    {dict.app_title}
                 </Typography>
                 <Typography
                     variant="h4"
@@ -65,7 +67,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                         fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                     }}
                 >
-                    Learn Languages Through Reading
+                    {dict.tagline}
                 </Typography>
                 <Typography
                     variant="h6"
@@ -77,7 +79,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                         fontWeight: 400
                     }}
                 >
-                    Import PDFs, click words to translate, and track your vocabulary naturally.
+                    {dict.hero_description}
                 </Typography>
             </Box>
 
@@ -101,7 +103,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                     transition: 'all 0.3s ease'
                 }}
             >
-                Get Started
+                {dict.get_started}
             </Button>
 
             {/* Features Grid */}

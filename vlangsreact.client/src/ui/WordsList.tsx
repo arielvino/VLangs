@@ -94,20 +94,20 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
             >
                 <Box sx={{ p: 3, borderBottom: `2px solid ${theme.palette.divider}` }}>
                     <Typography variant="h4" color="primary" sx={{ fontWeight: 600 }}>
-                        {useDictionary().words_list}
+                        {dict.words_list}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        {words.size} word{words.size !== 1 ? 's' : ''} learned
+                        {words.size} {words.size === 1 ? dict.word : dict.words} {dict.learned}
                     </Typography>
                 </Box>
 
                 {words.size === 0 ? (
                     <Box sx={{ p: 8, textAlign: 'center' }}>
                         <Typography variant="h6" color="text.secondary">
-                            No words yet
+                            {dict.no_words_yet}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                            Start reading to build your vocabulary
+                            {dict.no_words_desc}
                         </Typography>
                     </Box>
                 ) : (
@@ -119,7 +119,7 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
                                         color="secondary"
                                         sx={{ fontWeight: 600, fontSize: '1rem' }}
                                     >
-                                        Word
+                                        {dict.table_word}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -127,7 +127,7 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
                                         color="secondary"
                                         sx={{ fontWeight: 600, fontSize: '1rem' }}
                                     >
-                                        Translation
+                                        {dict.table_translation}
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center">
@@ -135,7 +135,7 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
                                         color="secondary"
                                         sx={{ fontWeight: 600, fontSize: '1rem' }}
                                     >
-                                        Times Asked
+                                        {dict.table_times_asked}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
