@@ -5,9 +5,8 @@ namespace VLangsReact.Server
     public static class Translator
     {
         private static readonly IConfiguration _config;
-        private static readonly TranslationClient TranslationClient;
-
-        //private static readonly TranslationClient TranslationClient;// = new TranslationClientBuilder { ApiKey = _config["GOOGLE_TRANSLATE_API_KEY"] }.Build();
+        private static readonly TranslationClient? TranslationClient;
+        private static readonly bool IsGoogleTranslationAvailable;
 
         static Translator()
         {
@@ -18,16 +17,44 @@ namespace VLangsReact.Server
                 .Build();
 
             var apiKey = _config["GOOGLE_TRANSLATE_API_KEY"];
-            if (string.IsNullOrWhiteSpace(apiKey))
-                throw new InvalidOperationException("GOOGLE_TRANSLATE_API_KEY is not set.");
-
-            TranslationClient = new TranslationClientBuilder { ApiKey = apiKey }.Build();
+            if (!string.IsNullOrWhiteSpace(apiKey))
+            {
+                try
+                {
+                    TranslationClient = new TranslationClientBuilder { ApiKey = apiKey }.Build();
+                    IsGoogleTranslationAvailable = true;
+                    Console.WriteLine("Google Translation API initialized successfully");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to initialize Google Translation API: {ex.Message}");
+                    IsGoogleTranslationAvailable = false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("WARNING: GOOGLE_TRANSLATE_API_KEY is not set. Google Translation will not be available.");
+                IsGoogleTranslationAvailable = false;
+            }
         }
 
         public static string TranslateGoogleApi(string word, string targetLang, string sourceLang)
         {
-            var result = TranslationClient.TranslateText(word, targetLang, sourceLang);
-            return result.TranslatedText;
+            if (!IsGoogleTranslationAvailable || TranslationClient == null)
+            {
+                throw new InvalidOperationException("Google Translation API is not available. Please set GOOGLE_TRANSLATE_API_KEY environment variable.");
+            }
+
+            try
+            {
+                var result = TranslationClient.TranslateText(word, targetLang, sourceLang);
+                return result.TranslatedText;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Google Translation failed: {ex.Message}");
+                throw new InvalidOperationException($"Translation failed: {ex.Message}", ex);
+            }
         }
 
         public static string TranslateGPT(OpenAIService openAIService, string word, string targetLang, string sourceLang)
