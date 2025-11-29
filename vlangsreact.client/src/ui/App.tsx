@@ -6,8 +6,8 @@ import { useTheme } from '@mui/material';
 //import LandingScreen from './LandingScreen';
 import WordsList from './WordsList';
 import { ReadTab } from './activities/reading/ReadTab';
-import { TabProvider } from '../new/TabContext';
-import LearnableText from '../new/LearnableText';
+import { TabProvider } from '../contexts/TabContext';
+import LearnableText from './components/LearnableText';
 
 function App() {
     type Activity =

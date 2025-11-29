@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { useTab } from "./TabContext"
+import { useTab } from "../../contexts/TabContext"
 import { useTheme } from "@mui/material"
-import type { WordEntry } from "../data/models/WordEntry"
+import type { WordEntry } from "../../data/models/WordEntry"
 import { Box } from "@mui/system"
-import type { TranslationData } from "./TranslationData"
+import type { TranslationData } from "../../data/models/TranslationData"
 
 const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: TranslationData, sender: HTMLElement) => void }> = ({ word, showTranslationOnParent }) => {
     const tab = useTab()

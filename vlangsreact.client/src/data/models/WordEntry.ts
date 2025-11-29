@@ -1,4 +1,4 @@
-import type { TranslationData } from "../../new/TranslationData"
+import type { TranslationData } from "./TranslationData"
 
 export type WordEntry = {
     tabId: string

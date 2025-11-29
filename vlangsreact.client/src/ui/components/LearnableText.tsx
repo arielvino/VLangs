@@ -1,10 +1,14 @@
-import { useTab } from "./TabContext"
+import { useTab } from "../../contexts/TabContext"
 import { useEffect, useState } from "react"
 import WordSpan from "./Word"
-import type { TranslationData } from "./TranslationData"
+import type { TranslationData } from "../../data/models/TranslationData"
 import { useTheme } from "@mui/material"
 
-const LearnableText: React.FC = () => {
+interface LearnableTextProps {
+    page?: number
+}
+
+const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
     const theme = useTheme()
     const tab = useTab()
     const [text, setText] = useState<string | null>(null)
@@ -18,8 +22,9 @@ const LearnableText: React.FC = () => {
     }
 
     useEffect(() => {
-        tab.getPageText(1).then(setText)
-    }, [tab])
+        setText(null) // Clear old text while loading
+        tab.getPageText(page).then(setText)
+    }, [tab, page])
 
     if (!text) return null
 

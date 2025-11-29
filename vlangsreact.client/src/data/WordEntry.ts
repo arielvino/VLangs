@@ -1,4 +1,4 @@
-import type { TranslationData } from "../new/TranslationData"
+import type { TranslationData } from "./models/TranslationData"
 
 export type WordEntry = {
     word:string,
