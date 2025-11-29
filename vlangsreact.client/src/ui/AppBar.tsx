@@ -23,11 +23,12 @@ const VLangsAppBar: React.FC = () => {
             sx={{
                 direction: useDictionary().direction,
                 bgcolor: theme.palette.background.paper,
-                borderBottom: `2px solid ${theme.palette.divider}`,
-                backdropFilter: 'blur(8px)',
+                borderBottom: `3px solid ${theme.palette.primary.main}`,
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
             }}
         >
-            <Toolbar sx={{ py: { xs: 0.5, sm: 1 }, minHeight: { xs: 56, sm: 64 } }}>
+            <Toolbar sx={{ py: { xs: 0.75, sm: 1.25 }, minHeight: { xs: 56, sm: 64 }, px: { xs: 2, sm: 3 } }}>
                 {/* App title */}
                 <Typography
                     color="primary"
@@ -35,7 +36,8 @@ const VLangsAppBar: React.FC = () => {
                         fontFamily: theme.typography.fontFamily?.at(1),
                         fontWeight: 700,
                         letterSpacing: '-0.5px',
-                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                        textShadow: `1px 1px 2px ${theme.palette.primary.dark}40`
                     }}
                     component="div"
                 >
@@ -46,7 +48,7 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack direction="row" spacing={{ xs: 0.75, sm: 1.5 }} alignItems="center">
+                <Stack direction="row" spacing={{ xs: 1, sm: 2 }} alignItems="center">
                     <Button
                         color="secondary"
                         size="small"

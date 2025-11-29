@@ -1,5 +1,5 @@
 import { useTab } from "../../contexts/TabContext"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
 import { useTheme, CircularProgress, Typography, Box, Stack } from "@mui/material"
@@ -16,15 +16,33 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
     const [coords, setCoords] = useState<{ x: number; y: number } | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
+    const popupRef = useRef<HTMLDivElement>(null)
 
     const onWordClick = (translationData: TranslationData, sender: HTMLElement) => {
         setTranslation(translationData)
         const rect = sender.getBoundingClientRect()
-        // Position popup below the word, accounting for scroll
+        // Position popup below the word, using absolute positioning to scroll with page
         const x = rect.left + window.scrollX
         const y = rect.bottom + window.scrollY
         setCoords({ x, y })
     }
+
+    // Close popup when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+                setTranslation(null)
+                setCoords(null)
+            }
+        }
+
+        if (translation && coords) {
+            document.addEventListener('mousedown', handleClickOutside)
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside)
+            }
+        }
+    }, [translation, coords])
 
     useEffect(() => {
         setText(null) // Clear old text while loading
@@ -130,10 +148,11 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
 
             {translation && coords && (
                 <div
+                    ref={popupRef}
                     style={{
-                        position: "fixed",
-                        left: Math.min(coords.x, window.innerWidth - 200),
-                        top: Math.min(coords.y - window.scrollY, window.innerHeight - 100),
+                        position: "absolute",
+                        left: coords.x,
+                        top: coords.y,
                         background: theme.palette.background.paper,
                         border: `2px solid ${theme.palette.primary.main}`,
                         borderRadius: theme.shape.borderRadius,
@@ -141,6 +160,7 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                         zIndex: 1000,
                         boxShadow: theme.shadows[4],
                         maxWidth: '200px',
+                        cursor: 'pointer'
                     }}
                     onClick={() => {
                         setTranslation(null)

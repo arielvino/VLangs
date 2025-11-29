@@ -61,8 +61,9 @@ function App() {
                         border: '1px solid',
                         borderColor: useTheme().palette.text.primary,
                         padding: { xs: 1, sm: 2 },
-                        width: '100%',
-                        maxWidth: '100%',
+                        width: 'auto',
+                        minWidth: { xs: '95%', sm: '600px' },
+                        maxWidth: { xs: '100%', sm: '95%', md: '1200px' },
                         boxSizing: 'border-box',
                         overflowX: 'hidden'
                     }}>
