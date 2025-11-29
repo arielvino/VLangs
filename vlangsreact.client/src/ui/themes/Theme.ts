@@ -79,6 +79,18 @@ export const baseThemeConfig = {
     },
     spacing: 8,
     components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    overflowX: 'hidden',
+                    maxWidth: '100vw',
+                },
+                html: {
+                    overflowX: 'hidden',
+                    maxWidth: '100vw',
+                },
+            },
+        },
         MuiButton: {
             styleOverrides: {
                 root: {

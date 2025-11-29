@@ -1,4 +1,4 @@
-﻿import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+﻿import { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from "react"
 import type { WordEntry } from "../data/models/WordEntry"
 import type { TranslationData } from "../data/models/TranslationData"
 import type { TabInfo } from "../data/models/TabInfo"
@@ -148,8 +148,13 @@ export const TabProvider = ({ tabId, children }: { tabId: string; children: Reac
         }
     }
 
+    const contextValue = useMemo(
+        () => ({ getTabId, getWordEntry, getPageText, updateWordState, getTranslationOf, getSourceLanguage, getTargetLanguage }),
+        [tabId, tab]
+    )
+
     return (
-        <TabContext.Provider value={{ getTabId, getWordEntry, getPageText, updateWordState, getTranslationOf, getSourceLanguage, getTargetLanguage }}>
+        <TabContext.Provider value={contextValue}>
             {children}
         </TabContext.Provider>
     )

@@ -20,7 +20,10 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
     const onWordClick = (translationData: TranslationData, sender: HTMLElement) => {
         setTranslation(translationData)
         const rect = sender.getBoundingClientRect()
-        setCoords({ x: rect.left, y: rect.bottom })
+        // Position popup below the word, accounting for scroll
+        const x = rect.left + window.scrollX
+        const y = rect.bottom + window.scrollY
+        setCoords({ x, y })
     }
 
     useEffect(() => {
@@ -128,14 +131,20 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
             {translation && coords && (
                 <div
                     style={{
-                        position: "absolute",
-                        left: coords.x,
-                        top: coords.y,
+                        position: "fixed",
+                        left: Math.min(coords.x, window.innerWidth - 200),
+                        top: Math.min(coords.y - window.scrollY, window.innerHeight - 100),
                         background: theme.palette.background.paper,
-                        border: `1px solid ${theme.palette.text.primary}`,
+                        border: `2px solid ${theme.palette.primary.main}`,
                         borderRadius: theme.shape.borderRadius,
-                        padding: theme.spacing(0.5),
+                        padding: theme.spacing(1),
                         zIndex: 1000,
+                        boxShadow: theme.shadows[4],
+                        maxWidth: '200px',
+                    }}
+                    onClick={() => {
+                        setTranslation(null)
+                        setCoords(null)
                     }}
                 >
                     {translation.type === "text" ? (

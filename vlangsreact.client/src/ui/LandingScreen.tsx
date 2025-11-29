@@ -33,6 +33,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
         <Stack
             spacing={6}
             alignItems="center"
+            dir={dict.direction}
             sx={{
                 maxWidth: 900,
                 margin: '0 auto',
@@ -42,7 +43,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                 justifyContent: 'center',
                 width: '100%',
                 boxSizing: 'border-box',
-                overflow: 'hidden'
+                overflowX: 'hidden'
             }}
         >
             {/* Hero Section */}
@@ -109,64 +110,56 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                 {dict.get_started}
             </Button>
 
-            {/* Features Grid */}
-            <Box sx={{ width: '100%', mt: 4 }}>
-                <Box
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
-                        gap: 4
-                    }}
-                >
-                    {features.map((feature, index) => (
-                        <Card
-                            key={index}
-                            elevation={0}
+            {/* Features Stack */}
+            <Stack spacing={3} sx={{ width: '100%', maxWidth: 600, mt: 4 }}>
+                {features.map((feature, index) => (
+                    <Card
+                        key={index}
+                        elevation={0}
+                        sx={{
+                            width: '100%',
+                            transition: 'all 0.3s ease',
+                            border: `2px solid ${theme.palette.divider}`,
+                            bgcolor: 'background.paper',
+                            boxSizing: 'border-box',
+                            '&:hover': {
+                                transform: 'translateY(-4px)',
+                                borderColor: theme.palette.primary.main,
+                                boxShadow: 6
+                            }
+                        }}
+                    >
+                        <CardContent
                             sx={{
-                                height: '100%',
-                                transition: 'all 0.3s ease',
-                                border: `2px solid ${theme.palette.divider}`,
-                                bgcolor: 'background.paper',
-                                '&:hover': {
-                                    transform: 'translateY(-8px)',
-                                    borderColor: theme.palette.primary.main,
-                                    boxShadow: 6
-                                }
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                p: 3
                             }}
                         >
-                            <CardContent
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    textAlign: 'center',
-                                    p: 4,
-                                    height: '100%'
-                                }}
+                            <Box sx={{ mb: 2 }}>
+                                {feature.icon}
+                            </Box>
+                            <Typography
+                                variant="h5"
+                                component="h3"
+                                gutterBottom
+                                sx={{ fontWeight: 600, mb: 1.5 }}
                             >
-                                <Box sx={{ mb: 3 }}>
-                                    {feature.icon}
-                                </Box>
-                                <Typography
-                                    variant="h5"
-                                    component="h3"
-                                    gutterBottom
-                                    sx={{ fontWeight: 600, mb: 2 }}
-                                >
-                                    {feature.title}
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="text.secondary"
-                                    sx={{ lineHeight: 1.7 }}
-                                >
-                                    {feature.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </Box>
-            </Box>
+                                {feature.title}
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                                color="text.secondary"
+                                sx={{ lineHeight: 1.6 }}
+                            >
+                                {feature.description}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Stack>
         </Stack>
     );
 };

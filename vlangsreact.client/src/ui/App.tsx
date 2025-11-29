@@ -37,6 +37,11 @@ function App() {
     return (
         <Box
             bgcolor={theme.palette.background.default}
+            sx={{
+                overflowX: 'hidden',
+                width: '100%',
+                maxWidth: '100vw'
+            }}
         >
             <VLangsAppBar />
             <Box
@@ -44,16 +49,22 @@ function App() {
                     display: 'grid',
                     placeItems: 'center',
                     minHeight: '100vh',
-                    padding: 2,
+                    padding: { xs: 1, sm: 2 },
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    overflowX: 'hidden'
                 }}
             >
                 <Paper
                     color="text.primary"
                     sx={{
-                        //margin: 2,
                         border: '1px solid',
                         borderColor: useTheme().palette.text.primary,
-                        padding: 2,
+                        padding: { xs: 1, sm: 2 },
+                        width: '100%',
+                        maxWidth: '100%',
+                        boxSizing: 'border-box',
+                        overflowX: 'hidden'
                     }}>
 
                     {activity.name === 'landing_screen' && (
