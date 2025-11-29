@@ -20,7 +20,11 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("Content-Security-Policy",
-        "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' data:;style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
+        "default-src 'self'; " +
+        "script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; " +
+        "worker-src 'self' blob:; " +
+        "connect-src 'self' data: https://cdn.jsdelivr.net; " +
+        "style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
     await next();
 });
 
