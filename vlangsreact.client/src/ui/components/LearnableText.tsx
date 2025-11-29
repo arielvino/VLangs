@@ -107,6 +107,9 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                                 flexWrap: 'wrap',
                                 rowGap: 0,
                                 columnGap: 0.1,
+                                maxWidth: '100%',
+                                overflow: 'hidden',
+                                wordBreak: 'break-word'
                             }}
                         >
                             {tokens.map((token, i) => {

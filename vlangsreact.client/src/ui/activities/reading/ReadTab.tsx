@@ -135,18 +135,29 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                             }
                         }}
                     />
-                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+                    <Box sx={{
+                        display: 'flex',
+                        gap: { xs: 1, sm: 2 },
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                    }}>
                         <Button
                             variant={'contained'}
-                            size={'medium'}
+                            size={'small'}
                             onClick={() => { if (page > 1) handlePageChange(page - 1); }}
                             disabled={page <= 1}
-                            sx={{ textTransform: 'none', minWidth: 120 }}
+                            sx={{
+                                textTransform: 'none',
+                                minWidth: { xs: 80, sm: 120 },
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                px: { xs: 1, sm: 2 }
+                            }}
                         >
                             {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'ltr' ? (
-                                <><ArrowBackTwoTone sx={{ mr: 1 }} /> {dict.previous_page}</>
+                                <><ArrowBackTwoTone sx={{ mr: 0.5, fontSize: { xs: '1rem', sm: '1.25rem' } }} /> {dict.previous_page}</>
                             ) : (
-                                <>{dict.previous_page} <ArrowForwardTwoTone sx={{ ml: 1 }} /></>
+                                <>{dict.previous_page} <ArrowForwardTwoTone sx={{ ml: 0.5, fontSize: { xs: '1rem', sm: '1.25rem' } }} /></>
                             )}
                         </Button>
                         <TextField
@@ -155,26 +166,31 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                             value={page}
                             onChange={(e) => handlePageChange(Number(e.target.value))}
                             sx={{
-                                width: 100,
+                                width: { xs: 70, sm: 100 },
                                 '& input': {
                                     textAlign: 'center',
                                     fontWeight: 600,
-                                    fontSize: '1.1rem'
+                                    fontSize: { xs: '0.9rem', sm: '1.1rem' }
                                 },
                             }}
                             size='small'
                         />
                         <Button
                             variant={'contained'}
-                            size={'medium'}
+                            size={'small'}
                             onClick={() => { if (page < (tab.totalPages || 100)) handlePageChange(page + 1); }}
                             disabled={page >= (tab.totalPages || 100)}
-                            sx={{ textTransform: 'none', minWidth: 120 }}
+                            sx={{
+                                textTransform: 'none',
+                                minWidth: { xs: 80, sm: 120 },
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                px: { xs: 1, sm: 2 }
+                            }}
                         >
                             {getDirection((tab.sourceLanguage || 'en') as LanguageOption) === 'rtl' ? (
-                                <><ArrowBackTwoTone sx={{ mr: 1 }} /> {dict.next_page}</>
+                                <><ArrowBackTwoTone sx={{ mr: 0.5, fontSize: { xs: '1rem', sm: '1.25rem' } }} /> {dict.next_page}</>
                             ) : (
-                                <>{dict.next_page} <ArrowForwardTwoTone sx={{ ml: 1 }} /></>
+                                <>{dict.next_page} <ArrowForwardTwoTone sx={{ ml: 0.5, fontSize: { xs: '1rem', sm: '1.25rem' } }} /></>
                             )}
                         </Button>
                     </Box>

@@ -36,10 +36,13 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
             sx={{
                 maxWidth: 900,
                 margin: '0 auto',
-                padding: { xs: 3, sm: 4, md: 6 },
+                padding: { xs: 2, sm: 4, md: 6 },
                 textAlign: 'center',
                 minHeight: 'calc(100vh - 100px)',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                width: '100%',
+                boxSizing: 'border-box',
+                overflow: 'hidden'
             }}
         >
             {/* Hero Section */}

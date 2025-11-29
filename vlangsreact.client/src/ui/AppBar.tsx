@@ -56,9 +56,9 @@ const VLangsAppBar: React.FC = () => {
                             borderRadius: 2,
                             textTransform: 'none',
                             fontWeight: 600,
-                            px: { xs: 1, sm: 2 },
+                            px: { xs: 1.5, sm: 2 },
                             py: { xs: 0.5, sm: 0.75 },
-                            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
                             minWidth: { xs: 'auto', sm: 'auto' },
                             ":hover": {
                                 borderWidth: 2,
@@ -69,7 +69,7 @@ const VLangsAppBar: React.FC = () => {
                         }}
                         onClick={() => toggleLanguage()}
                     >
-                        {useLanguage().language === 'en' ? 'עב' : 'EN'}
+                        {useLanguage().language === 'en' ? 'עברית' : 'English'}
                     </Button>
                     <IconButton
                         size='small'
