@@ -230,14 +230,23 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                 onClick={() => {
                     const tab: TabInfo = {
                         id: Date.now().toString(),
+                        title: newTabName.trim(),
+                        mode: "book",
+                        translationProvider: "google",
+                        createdAt: new Date(),
+                        lastOpenedAt: new Date(),
+                        modeProps: {
+                            sourcePath: newTabPath,
+                            currentPage: 1,
+                            totalPages: totalPages!
+                        },
+                        // Legacy compatibility properties
                         name: newTabName.trim(),
-                        sourceType: 'local',
-                        format: 'pdf',
                         sourceLanguage: sourceLanguage,
                         targetLanguage: targetLanguage,
                         page: 1,
                         totalPages: totalPages!,
-                        sourceHint: newTabPath
+                        format: 'pdf'
                     };
 
                     storage.addTab(tab).then((ok) => {

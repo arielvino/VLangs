@@ -4,15 +4,8 @@ services:
       context: .
       dockerfile: ./Dockerfile.server
     ports:
-      - "5000:80"
+      - "80:80"
     environment:
       - GPT_API_KEY=${GPT_API_KEY}
       - GOOGLE_TRANSLATE_API_KEY=${GOOGLE_TRANSLATE_API_KEY}
-      - ASPNETCORE_ENVIRONMENT=Development
-
-  client:
-    build:
-      context: ./vlangsreact.client
-      dockerfile: ./Dockerfile.dev
-    ports:
-      - "3000:3000"
+      - ASPNETCORE_ENVIRONMENT=Production

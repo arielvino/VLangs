@@ -14,6 +14,14 @@ interface BaseTabInfo {
 
     createdAt: Date
     lastOpenedAt: Date
+
+    // Legacy properties for backward compatibility
+    name?: string
+    sourceLanguage?: string
+    targetLanguage?: string
+    page?: number
+    format?: string
+    totalPages?: number
 }
 
 export interface BookTabInfo extends BaseTabInfo {

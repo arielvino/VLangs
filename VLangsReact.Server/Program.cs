@@ -20,7 +20,11 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("Content-Security-Policy",
-        "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' data:;style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
+        "default-src 'self'; " +
+        "script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; " +
+        "worker-src 'self' blob:; " +
+        "connect-src 'self' data: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; " +
+        "style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
     await next();
 });
 
@@ -34,7 +38,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Only use HTTPS redirection when not in a container (Azure handles HTTPS at ingress level)
+if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") != "true")
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 

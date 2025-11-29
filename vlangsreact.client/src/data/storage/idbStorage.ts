@@ -58,7 +58,7 @@ class IdbStorage implements StorageInterface {
         const db = await dbPromise();
         const tab = await db.get('tabs', id);
         if (tab) {
-            await db.put('tabs', { ...tab, ...updates });
+            await db.put('tabs', { ...tab, ...updates } as TabInfo);
             return true;
         }
         return false;

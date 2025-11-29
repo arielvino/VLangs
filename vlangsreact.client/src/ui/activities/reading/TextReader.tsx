@@ -83,6 +83,8 @@ const TextReader1: React.FC<TextReaderProps1> = ({ paragraphs, sourceLanguage, t
                     tabId: tabId,
                     known: false,
                     word: word,
+                    translation: { type: "text", content: "" },
+                    addedAt: new Date(),
                     timesAsked: 1,
                 })
             }
@@ -100,7 +102,7 @@ const TextReader1: React.FC<TextReaderProps1> = ({ paragraphs, sourceLanguage, t
                     position,
                 });
 
-                storage.updateWordEntry(tabId, word, { translation: _value })
+                storage.updateWordEntry(tabId, word, { translation: { type: "text", content: _value } })
             });
         }
         else {
@@ -110,12 +112,13 @@ const TextReader1: React.FC<TextReaderProps1> = ({ paragraphs, sourceLanguage, t
                         x,
                         y,
                     };
+                    const translationText = entry.translation.type === "text" ? entry.translation.content : "";
                     setPopupData({
                         word,
-                        translation: entry.translation,
+                        translation: translationText,
                         position,
                     });
-                    storage.updateWordEntry(tabId, word, { timesAsked: entry!.timesAsked + 1 })
+                    storage.updateWordEntry(tabId, word, { timesAsked: (entry.timesAsked || 0) + 1 })
                 }
             })
         }
@@ -228,7 +231,7 @@ const TextReader1: React.FC<TextReaderProps1> = ({ paragraphs, sourceLanguage, t
 //                    position,
 //                });
 
-//                storage.updateWordEntry(tabId, word, { translation: _value })
+//                storage.updateWordEntry(tabId, word, { translation: { type: "text", content: _value } })
 //            });
 //        }
 //        else {

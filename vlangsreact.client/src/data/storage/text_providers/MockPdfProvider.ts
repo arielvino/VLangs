@@ -1,7 +1,7 @@
-import { BookProvider } from "./BookProvider.ts";
+import type { BookProvider } from "./BookProvider";
 
 export class MockPdfProvider implements BookProvider {
-    format: "mockpdf";
+    format: "mockpdf" = "mockpdf";
     getPageCount(): number {
         throw new Error("Method not implemented.");
     }

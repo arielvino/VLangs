@@ -1,4 +1,4 @@
-import type { TranslationData } from "../../new/TranslationData"
+import type { TranslationData } from "./TranslationData"
 
 export type WordEntry = {
     tabId: string
@@ -7,4 +7,5 @@ export type WordEntry = {
     known: boolean
     addedAt: Date
     knownAt?: Date
+    timesAsked?: number
 }

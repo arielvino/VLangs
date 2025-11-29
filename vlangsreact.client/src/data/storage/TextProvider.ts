@@ -29,7 +29,7 @@ export class TextProvider {
 
             switch (tab.format) {
                 case 'pdf': {
-                    let result = await TesseractOCR.extractPdfPage(fileContent, pageNumber, tab.sourceLanguage);
+                    let result = await TesseractOCR.extractPdfPage(fileContent, pageNumber, tab.sourceLanguage || 'eng');
                     if (!result) throw new Error("OCR failed to extract text");
                     text = result;
                     break;
