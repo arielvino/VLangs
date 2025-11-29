@@ -43,9 +43,9 @@ class TesseractOCR implements InterfaceOCR {
                 canvas,
                 this.getTesseractLang(sourceLanguage),
                 {
-                    // Use CDN for Tesseract resources (recommended)
+                    // Use CDN for Tesseract resources (recommended by Tesseract.js docs)
                     workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
-                    langPath: 'https://cdn.jsdelivr.net/npm/tessdata@4.0.0/',
+                    langPath: 'https://tessdata.projectnaptha.com/4.0.0',
                     corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core.wasm.js',
                 }
             );

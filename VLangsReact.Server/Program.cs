@@ -23,7 +23,7 @@ app.Use(async (context, next) =>
         "default-src 'self'; " +
         "script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; " +
         "worker-src 'self' blob:; " +
-        "connect-src 'self' data: https://cdn.jsdelivr.net; " +
+        "connect-src 'self' data: https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; " +
         "style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=';");
     await next();
 });
