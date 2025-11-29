@@ -81,8 +81,11 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
         )
     }
 
-    // Split text into paragraphs
-    const paragraphs = text.split('\n').filter(p => p.trim().length > 0)
+    // Split text into paragraphs on empty lines (double newlines)
+    const paragraphs = text
+        .split(/\n\s*\n/) // split on empty line
+        .map(p => p.trim())
+        .filter(Boolean)
 
     // Tokenize each paragraph
     const tokenizeParagraph = (paragraph: string) => {
