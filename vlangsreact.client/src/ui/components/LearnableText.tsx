@@ -2,7 +2,7 @@ import { useTab } from "../../contexts/TabContext"
 import { useEffect, useState } from "react"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
-import { useTheme, CircularProgress, Typography, Box } from "@mui/material"
+import { useTheme, CircularProgress, Typography, Box, Stack } from "@mui/material"
 
 interface LearnableTextProps {
     page?: number
@@ -81,17 +81,46 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
         )
     }
 
-    const tokens = text.match(/(\p{L}+\p{M}*|[^\p{L}\p{M}\s])/gu) || []
+    // Split text into paragraphs on empty lines (double newlines)
+    const paragraphs = text
+        .split(/\n\s*\n/) // split on empty line
+        .map(p => p.trim())
+        .filter(Boolean)
+
+    // Tokenize each paragraph
+    const tokenizeParagraph = (paragraph: string) => {
+        const tokens = paragraph.match(/(\p{L}+\p{M}*|[^\p{L}\p{M}\s])/gu) || []
+        return tokens
+    }
 
     return (
-        <span>
-            {tokens.map((token, i) => {
-                if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
-                    return <WordSpan key={i} word={token} showTranslationOnParent={onWordClick} />
-                } else {
-                    return <span key={i}>{token}</span>
-                }
-            })}
+        <>
+            <Stack spacing={2}>
+                {paragraphs.map((paragraph, pIndex) => {
+                    const tokens = tokenizeParagraph(paragraph)
+                    return (
+                        <Box
+                            key={`p-${pIndex}`}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                flexWrap: 'wrap',
+                                rowGap: 0,
+                                columnGap: 0.1,
+                            }}
+                        >
+                            {tokens.map((token, i) => {
+                                if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
+                                    return <WordSpan key={`w-${pIndex}-${i}`} word={token} showTranslationOnParent={onWordClick} />
+                                } else {
+                                    return <span key={`nw-${pIndex}-${i}`}>{token}</span>
+                                }
+                            })}
+                            <Box flexGrow={1} />
+                        </Box>
+                    )
+                })}
+            </Stack>
 
             {translation && coords && (
                 <div
@@ -123,7 +152,7 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                     )}
                 </div>
             )}
-        </span>
+        </>
     )
 }
 
