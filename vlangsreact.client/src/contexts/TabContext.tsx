@@ -63,10 +63,20 @@ export const TabProvider = ({ tabId, children }: { tabId: string; children: Reac
     }
 
     const getPageText = async (page: number): Promise<string> => {
-        // Use real storage via TextProvider
-        storage.updateTab(tabId, { page })
-        const text = await TextProvider.getPage(tabId, page)
-        return text || "(no text found)"
+        try {
+            // Use real storage via TextProvider
+            storage.updateTab(tabId, { page })
+            const text = await TextProvider.getPage(tabId, page)
+
+            if (!text) {
+                throw new Error("No content available for this page")
+            }
+
+            return text
+        } catch (err) {
+            console.error(`Error loading page ${page} for tab ${tabId}:`, err)
+            throw err
+        }
     }
 
     const getWordEntry = async (word: string): Promise<WordEntry | null> => {
