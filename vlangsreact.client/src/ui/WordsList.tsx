@@ -29,54 +29,154 @@ const WordsList: React.FC<WordsListProps> = ({ tabId, onBackPressed }) => {
     }, [tabId]);
 
     return (
-        <Box>
-            <Stack spacing={1} direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'} width='100%' position='static'>
-                <Typography variant="h6" textAlign={'center'}>{tab?.name}</Typography>
-                <Box flexGrow={1} />
-                <IconButton onClick={onBackPressed} sx={{
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.background.paper,
-                    ":hover": {
-                        bgcolor: theme.palette.primary.main + ' !important',
-                    }
-                }}>{dict.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardRounded />}</IconButton>
-            </Stack>
-            <>
-                <Typography variant="h5" gutterBottom color="primary">
-                    {useDictionary().words_list}
+        <Box
+            sx={{
+                maxWidth: 1000,
+                margin: '0 auto',
+                padding: { xs: 2, sm: 3, md: 4 },
+                width: '100%'
+            }}
+        >
+            {/* Header with title and back button */}
+            <Stack
+                spacing={2}
+                direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'}
+                sx={{
+                    padding: 2,
+                    width: '100%',
+                    alignItems: 'center',
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    border: `2px solid ${theme.palette.divider}`,
+                    boxShadow: 2,
+                    mb: 3
+                }}
+            >
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: 600,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    {tab?.name}
                 </Typography>
+                <Box flexGrow={1} />
+                <IconButton
+                    onClick={onBackPressed}
+                    size="large"
+                    sx={{
+                        bgcolor: theme.palette.primary.main,
+                        color: theme.palette.background.paper,
+                        border: `2px solid ${theme.palette.primary.main}`,
+                        ":hover": {
+                            bgcolor: theme.palette.primary.dark,
+                            transform: 'scale(1.05)'
+                        },
+                        transition: 'all 0.2s ease'
+                    }}
+                >
+                    {dict.direction === 'ltr' ? <ArrowBackRounded /> : <ArrowForwardRounded />}
+                </IconButton>
+            </Stack>
 
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell sx={{ color: theme.palette.secondary.main }}>
-                                <Typography color="secondary">Word</Typography>
-                            </TableCell>
-                            <TableCell sx={{ color: theme.palette.secondary.main }}>
-                                <Typography color="secondary">Translation</Typography>
-                            </TableCell>
-                            <TableCell sx={{ color: theme.palette.secondary.main }}>
-                                <Typography color="secondary">Times Asked</Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {[...words].map((word, i) => (
-                            <TableRow key={i}>
+            {/* Words list section */}
+            <Box
+                sx={{
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    border: `2px solid ${theme.palette.divider}`,
+                    boxShadow: 2,
+                    overflow: 'hidden'
+                }}
+            >
+                <Box sx={{ p: 3, borderBottom: `2px solid ${theme.palette.divider}` }}>
+                    <Typography variant="h4" color="primary" sx={{ fontWeight: 600 }}>
+                        {dict.words_list}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        {words.size} {words.size === 1 ? dict.word : dict.words} {dict.learned}
+                    </Typography>
+                </Box>
+
+                {words.size === 0 ? (
+                    <Box sx={{ p: 8, textAlign: 'center' }}>
+                        <Typography variant="h6" color="text.secondary">
+                            {dict.no_words_yet}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                            {dict.no_words_desc}
+                        </Typography>
+                    </Box>
+                ) : (
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{ bgcolor: theme.palette.action.hover }}>
                                 <TableCell>
-                                    <Typography>{word.word}</Typography>
+                                    <Typography
+                                        color="secondary"
+                                        sx={{ fontWeight: 600, fontSize: '1rem' }}
+                                    >
+                                        {dict.table_word}
+                                    </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography>{word.translation.type === "text" ? word.translation.content : ""}</Typography>
+                                    <Typography
+                                        color="secondary"
+                                        sx={{ fontWeight: 600, fontSize: '1rem' }}
+                                    >
+                                        {dict.table_translation}
+                                    </Typography>
                                 </TableCell>
-                                <TableCell>
-                                    <Typography>{word.timesAsked || 0}</Typography>
+                                <TableCell align="center">
+                                    <Typography
+                                        color="secondary"
+                                        sx={{ fontWeight: 600, fontSize: '1rem' }}
+                                    >
+                                        {dict.table_times_asked}
+                                    </Typography>
                                 </TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </>
+                        </TableHead>
+                        <TableBody>
+                            {[...words].map((word, i) => (
+                                <TableRow
+                                    key={i}
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: theme.palette.action.hover
+                                        },
+                                        transition: 'background-color 0.2s ease'
+                                    }}
+                                >
+                                    <TableCell>
+                                        <Typography sx={{ fontWeight: 500 }}>
+                                            {word.word}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography color="text.secondary">
+                                            {word.translation.type === "text" ? word.translation.content : ""}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Typography
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: theme.palette.primary.main
+                                            }}
+                                        >
+                                            {word.timesAsked || 0}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+            </Box>
         </Box>
     );
 };

@@ -6,40 +6,58 @@ export const palettes: Record<Theme, PaletteOptions> = {
     light: {
         mode: 'light',
         primary: {
-            //main: '#cc00ff',
-            main: '#3333ff',
+            main: '#6366F1', // Rich indigo
+            dark: '#4338CA',
+            light: '#818CF8',
         },
         secondary: {
-            //main: '#008888',
-            main: '#00ccff',
+            main: '#14B8A6', // Vibrant teal
+            dark: '#0F766E',
+            light: '#5EEAD4',
         },
         background: {
-            default: '#bbccff',
-            paper: '#ffffff',
+            default: '#F8F9FF', // Soft blue-white
+            paper: '#FFFFFF',
         },
         text: {
-            primary: '#000000',
-            secondary: '#666666',
+            primary: '#1E293B',
+            secondary: '#64748B',
         },
-        divider: '#e0e0e0',
+        success: {
+            main: '#10B981', // Emerald
+        },
+        error: {
+            main: '#EF4444', // Red
+        },
+        divider: '#E2E8F0',
     },
     dark: {
         mode: 'dark',
         primary: {
-            main: '#cc00ff',
+            main: '#A78BFA', // Soft purple
+            dark: '#7C3AED',
+            light: '#C4B5FD',
         },
         secondary: {
-            main: '#00ccff',
+            main: '#2DD4BF', // Bright teal
+            dark: '#14B8A6',
+            light: '#5EEAD4',
         },
         background: {
-            default: '#121212',
-            paper: '#2e2e2e',
+            default: '#0F172A', // Deep navy
+            paper: '#1E293B', // Slate
         },
         text: {
-            primary: '#ffffff',
-            secondary: '#999999',
+            primary: '#F1F5F9',
+            secondary: '#94A3B8',
         },
-        divider: '#333333',
+        success: {
+            main: '#34D399', // Bright emerald
+        },
+        error: {
+            main: '#F87171', // Bright red
+        },
+        divider: '#334155',
     },
 };
 
@@ -79,6 +97,18 @@ export const baseThemeConfig = {
     },
     spacing: 8,
     components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    overflowX: 'hidden',
+                    maxWidth: '100vw',
+                },
+                html: {
+                    overflowX: 'hidden',
+                    maxWidth: '100vw',
+                },
+            },
+        },
         MuiButton: {
             styleOverrides: {
                 root: {

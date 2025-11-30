@@ -1,5 +1,5 @@
 import { useTab } from "../../contexts/TabContext"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
 import { useTheme, CircularProgress, Typography, Box, Stack } from "@mui/material"
@@ -16,12 +16,33 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
     const [coords, setCoords] = useState<{ x: number; y: number } | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
+    const popupRef = useRef<HTMLDivElement>(null)
 
     const onWordClick = (translationData: TranslationData, sender: HTMLElement) => {
         setTranslation(translationData)
         const rect = sender.getBoundingClientRect()
-        setCoords({ x: rect.left, y: rect.bottom })
+        // Position popup below the word, using absolute positioning to scroll with page
+        const x = rect.left + window.scrollX
+        const y = rect.bottom + window.scrollY
+        setCoords({ x, y })
     }
+
+    // Close popup when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+                setTranslation(null)
+                setCoords(null)
+            }
+        }
+
+        if (translation && coords) {
+            document.addEventListener('mousedown', handleClickOutside)
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside)
+            }
+        }
+    }, [translation, coords])
 
     useEffect(() => {
         setText(null) // Clear old text while loading
@@ -107,13 +128,28 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                                 flexWrap: 'wrap',
                                 rowGap: 0,
                                 columnGap: 0.1,
+                                maxWidth: '100%',
+                                overflow: 'hidden',
+                                wordBreak: 'break-word'
                             }}
                         >
                             {tokens.map((token, i) => {
                                 if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
                                     return <WordSpan key={`w-${pIndex}-${i}`} word={token} showTranslationOnParent={onWordClick} />
                                 } else {
-                                    return <span key={`nw-${pIndex}-${i}`}>{token}</span>
+                                    return (
+                                        <span
+                                            key={`nw-${pIndex}-${i}`}
+                                            style={{
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                alignSelf: 'center',
+                                                margin: '0.25em'
+                                            }}
+                                        >
+                                            {token}
+                                        </span>
+                                    )
                                 }
                             })}
                             <Box flexGrow={1} />
@@ -124,15 +160,23 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
 
             {translation && coords && (
                 <div
+                    ref={popupRef}
                     style={{
                         position: "absolute",
                         left: coords.x,
                         top: coords.y,
                         background: theme.palette.background.paper,
-                        border: `1px solid ${theme.palette.text.primary}`,
+                        border: `2px solid ${theme.palette.primary.main}`,
                         borderRadius: theme.shape.borderRadius,
-                        padding: theme.spacing(0.5),
+                        padding: theme.spacing(1),
                         zIndex: 1000,
+                        boxShadow: theme.shadows[4],
+                        maxWidth: '200px',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => {
+                        setTranslation(null)
+                        setCoords(null)
                     }}
                 >
                     {translation.type === "text" ? (
