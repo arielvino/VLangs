@@ -1,21 +1,16 @@
-import { useTab } from "../../contexts/TabContext"
 import { useEffect, useState, useRef } from "react"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
-import { useTheme, CircularProgress, Typography, Box, Stack } from "@mui/material"
+import { useTheme, Box, Stack } from "@mui/material"
 
 interface LearnableTextProps {
-    contentKey?: number | string
+    text: string
 }
 
-const LearnableText: React.FC<LearnableTextProps> = ({ contentKey = 1 }) => {
+const LearnableText: React.FC<LearnableTextProps> = ({ text }) => {
     const theme = useTheme()
-    const tab = useTab()
-    const [text, setText] = useState<string | null>(null)
     const [translation, setTranslation] = useState<TranslationData | null>(null)
     const [coords, setCoords] = useState<{ x: number; y: number } | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | null>(null)
     const popupRef = useRef<HTMLDivElement>(null)
 
     const onWordClick = (translationData: TranslationData, sender: HTMLElement) => {
@@ -44,69 +39,6 @@ const LearnableText: React.FC<LearnableTextProps> = ({ contentKey = 1 }) => {
         }
     }, [translation, coords])
 
-    useEffect(() => {
-        setText(null) // Clear old text while loading
-        setIsLoading(true)
-        setError(null)
-
-        // Support both numeric (page) and string keys, defaulting to page-based loading
-        const loadContent = typeof contentKey === 'number'
-            ? tab.getPageText(contentKey)
-            : Promise.reject(new Error('String content keys not yet supported'))
-
-        loadContent
-            .then((loadedText) => {
-                console.log('Content loaded:', loadedText?.substring(0, 100))
-                setText(loadedText)
-                setIsLoading(false)
-            })
-            .catch((err) => {
-                console.error('Failed to load content:', err)
-                setError(err.message || 'Failed to load content')
-                setIsLoading(false)
-            })
-    }, [tab, contentKey])
-
-    if (isLoading) {
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
-                <CircularProgress />
-                <Typography variant="body2" color="text.secondary">
-                    Loading content...
-                </Typography>
-            </Box>
-        )
-    }
-
-    if (error) {
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
-                <Typography variant="h6" color="error">
-                    Error Loading Content
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {error}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                    Unable to load the requested content.
-                </Typography>
-            </Box>
-        )
-    }
-
-    if (!text || text.trim().length === 0) {
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
-                <Typography variant="h6" color="text.secondary">
-                    No content found
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    The content appears to be empty or couldn't be extracted.
-                </Typography>
-            </Box>
-        )
-    }
-
     // Split text into paragraphs on empty lines (double newlines)
     const paragraphs = text
         .split(/\n\s*\n/) // split on empty line
@@ -115,7 +47,8 @@ const LearnableText: React.FC<LearnableTextProps> = ({ contentKey = 1 }) => {
 
     // Tokenize each paragraph
     const tokenizeParagraph = (paragraph: string) => {
-        const tokens = paragraph.match(/(\p{L}+\p{M}*|[^\p{L}\p{M}\s])/gu) || []
+        // Match words, whitespace sequences, and punctuation separately
+        const tokens = paragraph.match(/(\p{L}+\p{M}*|\s+|[^\p{L}\p{M}\s])/gu) || []
         return tokens
     }
 
@@ -140,8 +73,13 @@ const LearnableText: React.FC<LearnableTextProps> = ({ contentKey = 1 }) => {
                         >
                             {tokens.map((token, i) => {
                                 if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
+                                    // It's a word
                                     return <WordSpan key={`w-${pIndex}-${i}`} word={token} showTranslationOnParent={onWordClick} />
+                                } else if (/^\s+$/.test(token)) {
+                                    // It's whitespace - preserve it
+                                    return <span key={`ws-${pIndex}-${i}`}>{token}</span>
                                 } else {
+                                    // It's punctuation or other characters
                                     return (
                                         <span
                                             key={`nw-${pIndex}-${i}`}

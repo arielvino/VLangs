@@ -25,28 +25,28 @@ const VLangsAppBar: React.FC = () => {
                 direction: dict.direction,
                 background: theme.palette.mode === 'dark'
                     ? `
-                        radial-gradient(ellipse 500px 300px at 0% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
-                        radial-gradient(ellipse 500px 300px at 100% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 70%),
-                        repeating-linear-gradient(
-                            45deg,
-                            transparent,
-                            transparent 10px,
-                            rgba(99, 102, 241, 0.03) 10px,
-                            rgba(99, 102, 241, 0.03) 20px
-                        ),
-                        linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(26, 41, 66, 0.95) 50%, ${theme.palette.background.paper} 100%)
+                        radial-gradient(circle 600px at 0% 40%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+                        radial-gradient(circle 600px at 100% 60%, rgba(139, 92, 246, 0.18) 0%, transparent 60%),
+                        radial-gradient(ellipse 800px 200px at 50% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 70%),
+                        linear-gradient(135deg,
+                            ${theme.palette.background.paper} 0%,
+                            rgba(30, 41, 59, 0.7) 25%,
+                            rgba(51, 65, 85, 0.8) 50%,
+                            rgba(30, 41, 59, 0.7) 75%,
+                            ${theme.palette.background.paper} 100%
+                        )
                     `
                     : `
-                        radial-gradient(ellipse 500px 300px at 0% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 70%),
-                        radial-gradient(ellipse 500px 300px at 100% 50%, rgba(244, 114, 182, 0.12) 0%, transparent 70%),
-                        repeating-linear-gradient(
-                            45deg,
-                            transparent,
-                            transparent 10px,
-                            rgba(99, 102, 241, 0.02) 10px,
-                            rgba(99, 102, 241, 0.02) 20px
-                        ),
-                        linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(224, 231, 255, 0.95) 50%, ${theme.palette.background.paper} 100%)
+                        radial-gradient(circle 600px at 0% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle 600px at 100% 60%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse 800px 200px at 50% 100%, rgba(99, 102, 241, 0.06) 0%, transparent 70%),
+                        linear-gradient(135deg,
+                            ${theme.palette.background.paper} 0%,
+                            rgba(237, 233, 254, 0.5) 25%,
+                            rgba(243, 232, 255, 0.6) 50%,
+                            rgba(237, 233, 254, 0.5) 75%,
+                            ${theme.palette.background.paper} 100%
+                        )
                     `,
                 borderBottom: `3px solid ${theme.palette.primary.main}`,
                 backdropFilter: 'blur(10px)',
@@ -81,7 +81,16 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack direction="row" spacing={{ xs: 3, sm: 4 }} alignItems="center">
+                <Stack
+                    direction="row"
+                    spacing={{ xs: 4, sm: 5 }}
+                    alignItems="center"
+                    sx={{
+                        '& > *': {
+                            flexShrink: 0
+                        }
+                    }}
+                >
                     <Button
                         color="secondary"
                         size="medium"

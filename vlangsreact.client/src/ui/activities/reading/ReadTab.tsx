@@ -9,7 +9,7 @@ import { Box } from "@mui/system";
 import { ArrowBackRounded, ArrowBackTwoTone, ArrowForwardRounded, ArrowForwardTwoTone } from "@mui/icons-material";
 import { getDirection, type LanguageOption } from "../tab_creation/LanguageSelector";
 import { TabProvider } from "../../../contexts/TabContext";
-import LearnableText from "../../components/LearnableText";
+import TextLoader from "./TextLoader";
 
 const storage: StorageInterface = idbStorage;
 
@@ -219,7 +219,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 }}
             >
                 <TabProvider tabId={tabId}>
-                    <LearnableText contentKey={page} />
+                    <TextLoader page={page} />
                 </TabProvider>
             </Box>
         </Stack>
