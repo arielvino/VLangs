@@ -5,10 +5,10 @@ import type { TranslationData } from "../../data/models/TranslationData"
 import { useTheme, CircularProgress, Typography, Box, Stack } from "@mui/material"
 
 interface LearnableTextProps {
-    page?: number
+    contentKey?: number | string
 }
 
-const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
+const LearnableText: React.FC<LearnableTextProps> = ({ contentKey = 1 }) => {
     const theme = useTheme()
     const tab = useTab()
     const [text, setText] = useState<string | null>(null)
@@ -49,25 +49,30 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
         setIsLoading(true)
         setError(null)
 
-        tab.getPageText(page)
+        // Support both numeric (page) and string keys, defaulting to page-based loading
+        const loadContent = typeof contentKey === 'number'
+            ? tab.getPageText(contentKey)
+            : Promise.reject(new Error('String content keys not yet supported'))
+
+        loadContent
             .then((loadedText) => {
-                console.log('Page text loaded:', loadedText?.substring(0, 100))
+                console.log('Content loaded:', loadedText?.substring(0, 100))
                 setText(loadedText)
                 setIsLoading(false)
             })
             .catch((err) => {
-                console.error('Failed to load page text:', err)
-                setError(err.message || 'Failed to load page content')
+                console.error('Failed to load content:', err)
+                setError(err.message || 'Failed to load content')
                 setIsLoading(false)
             })
-    }, [tab, page])
+    }, [tab, contentKey])
 
     if (isLoading) {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
                 <CircularProgress />
                 <Typography variant="body2" color="text.secondary">
-                    Loading page {page}...
+                    Loading content...
                 </Typography>
             </Box>
         )
@@ -77,13 +82,13 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
                 <Typography variant="h6" color="error">
-                    Error Loading Page
+                    Error Loading Content
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {error}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                    Make sure you have uploaded a PDF file for this tab.
+                    Unable to load the requested content.
                 </Typography>
             </Box>
         )
@@ -96,7 +101,7 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                     No content found
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    This page appears to be empty or the OCR couldn't extract any text.
+                    The content appears to be empty or couldn't be extracted.
                 </Typography>
             </Box>
         )
@@ -127,7 +132,7 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                                 justifyContent: 'space-between',
                                 flexWrap: 'wrap',
                                 rowGap: 0,
-                                columnGap: 0.1,
+                                columnGap: 0,
                                 maxWidth: '100%',
                                 overflow: 'hidden',
                                 wordBreak: 'break-word'
@@ -141,10 +146,9 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                                         <span
                                             key={`nw-${pIndex}-${i}`}
                                             style={{
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                alignSelf: 'center',
-                                                margin: '0.25em'
+                                                display: 'inline',
+                                                padding: 0,
+                                                margin: 0
                                             }}
                                         >
                                             {token}

@@ -24,8 +24,30 @@ const VLangsAppBar: React.FC = () => {
             sx={{
                 direction: dict.direction,
                 background: theme.palette.mode === 'dark'
-                    ? `linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(26, 41, 66, 0.95) 50%, ${theme.palette.background.paper} 100%)`
-                    : `linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(224, 231, 255, 0.95) 50%, ${theme.palette.background.paper} 100%)`,
+                    ? `
+                        radial-gradient(ellipse 500px 300px at 0% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
+                        radial-gradient(ellipse 500px 300px at 100% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 70%),
+                        repeating-linear-gradient(
+                            45deg,
+                            transparent,
+                            transparent 10px,
+                            rgba(99, 102, 241, 0.03) 10px,
+                            rgba(99, 102, 241, 0.03) 20px
+                        ),
+                        linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(26, 41, 66, 0.95) 50%, ${theme.palette.background.paper} 100%)
+                    `
+                    : `
+                        radial-gradient(ellipse 500px 300px at 0% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 70%),
+                        radial-gradient(ellipse 500px 300px at 100% 50%, rgba(244, 114, 182, 0.12) 0%, transparent 70%),
+                        repeating-linear-gradient(
+                            45deg,
+                            transparent,
+                            transparent 10px,
+                            rgba(99, 102, 241, 0.02) 10px,
+                            rgba(99, 102, 241, 0.02) 20px
+                        ),
+                        linear-gradient(90deg, ${theme.palette.background.paper} 0%, rgba(224, 231, 255, 0.95) 50%, ${theme.palette.background.paper} 100%)
+                    `,
                 borderBottom: `3px solid ${theme.palette.primary.main}`,
                 backdropFilter: 'blur(10px)',
                 boxShadow: `0 4px 12px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.08)'}`
@@ -59,7 +81,7 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack direction="row" spacing={{ xs: 2, sm: 3 }} alignItems="center">
+                <Stack direction="row" spacing={{ xs: 3, sm: 4 }} alignItems="center">
                     <Button
                         color="secondary"
                         size="medium"

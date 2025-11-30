@@ -219,7 +219,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 }}
             >
                 <TabProvider tabId={tabId}>
-                    <LearnableText page={page} />
+                    <LearnableText contentKey={page} />
                 </TabProvider>
             </Box>
         </Stack>

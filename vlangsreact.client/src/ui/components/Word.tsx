@@ -48,7 +48,7 @@ const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: 
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: determineBgColor(wordEntry),
-            margin: "0.25em",
+            marginRight: "0.1em",
             borderRadius: "0.25em",
             padding: "0.05em 0.02em",
             cursor: "pointer",
