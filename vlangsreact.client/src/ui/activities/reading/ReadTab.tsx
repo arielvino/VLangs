@@ -9,7 +9,7 @@ import { Box } from "@mui/system";
 import { ArrowBackRounded, ArrowBackTwoTone, ArrowForwardRounded, ArrowForwardTwoTone } from "@mui/icons-material";
 import { getDirection, type LanguageOption } from "../tab_creation/LanguageSelector";
 import { TabProvider } from "../../../contexts/TabContext";
-import LearnableText from "../../components/LearnableText";
+import TabTextLoader from "./TabTextLoader";
 
 const storage: StorageInterface = idbStorage;
 
@@ -56,10 +56,10 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
         <Stack
             spacing={3}
             sx={{
-                margin: 0,
+                margin: '0 auto',
                 padding: { xs: 1, sm: 2 },
                 alignItems: 'center',
-                maxWidth: '100%',
+                maxWidth: { xs: '100%', sm: '700px', md: '850px', lg: '900px' },
                 width: '100%',
                 boxSizing: 'border-box',
                 overflowX: 'hidden'
@@ -72,12 +72,10 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 sx={{
                     padding: { xs: 1, sm: 2 },
                     width: '100%',
-                    maxWidth: '100%',
                     alignItems: 'center',
-                    bgcolor: theme.palette.background.paper,
+                    bgcolor: 'transparent',
                     borderRadius: 2,
-                    border: `2px solid ${theme.palette.divider}`,
-                    boxShadow: 2,
+                    boxShadow: 0,
                     boxSizing: 'border-box',
                     overflowX: 'hidden'
                 }}
@@ -116,12 +114,9 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
             <Box
                 sx={{
                     width: '100%',
-                    maxWidth: '100%',
-                    bgcolor: theme.palette.background.paper,
+                    bgcolor: 'transparent',
                     borderRadius: 2,
                     p: { xs: 2, sm: 3 },
-                    border: `2px solid ${theme.palette.divider}`,
-                    boxShadow: 2,
                     boxSizing: 'border-box',
                     overflowX: 'hidden'
                 }}
@@ -212,12 +207,11 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
             <Box
                 sx={{
                     width: '100%',
-                    maxWidth: '100%',
                     bgcolor: theme.palette.background.paper,
-                    borderRadius: 2,
-                    p: { xs: 2, sm: 3 },
-                    border: `2px solid ${theme.palette.divider}`,
-                    boxShadow: 2,
+                    borderRadius: 3,
+                    p: { xs: 2, sm: 4 },
+                    border: `1px solid ${theme.palette.divider}`,
+                    boxShadow: 3,
                     minHeight: 400,
                     boxSizing: 'border-box',
                     overflowX: 'hidden',
@@ -225,7 +219,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 }}
             >
                 <TabProvider tabId={tabId}>
-                    <LearnableText page={page} />
+                    <TabTextLoader page={page} />
                 </TabProvider>
             </Box>
         </Stack>

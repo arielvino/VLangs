@@ -33,10 +33,14 @@ const strings = {
         no_tabs_desc: 'Create your first tab to start learning',
         // Tab creation
         tab_name: 'Tab Name',
+        tab_creation_subtitle: 'Upload a PDF and set your learning preferences',
+        tab_name_section: 'Tab Name',
+        upload_pdf_section: 'Upload PDF',
+        languages_section: 'Languages',
         choose_file: 'Choose File',
         source_language: 'Source Language',
         target_language: 'Target Language',
-        ok: 'OK',
+        ok: 'Create Tab',
         cancel: 'Cancel',
         pages_count: 'pages',
         // Reading
@@ -86,10 +90,14 @@ const strings = {
         no_tabs_desc: 'צרו כרטיסייה ראשונה והתחילו ללמוד',
         // Tab creation
         tab_name: 'שם הכרטיסיה',
+        tab_creation_subtitle: 'העלו קובץ PDF ובחרו הגדרות למידה',
+        tab_name_section: 'שם הכרטיסייה',
+        upload_pdf_section: 'העלאת PDF',
+        languages_section: 'שפות',
         choose_file: 'בחרו קובץ',
         source_language: 'שפת המקור',
         target_language: 'שפת היעד',
-        ok: 'אישור',
+        ok: 'צור כרטיסייה',
         cancel: 'ביטול',
         pages_count: 'עמודים',
         // Reading

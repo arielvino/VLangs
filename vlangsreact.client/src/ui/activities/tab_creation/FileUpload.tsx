@@ -24,7 +24,17 @@ const FileUpload: React.FC<Props> = ({ onFileSelect }) => {
                 hidden
                 onChange={handleChange}
             />
-            <Button variant="outlined" size='small' fullWidth onClick={handleClick}>
+            <Button
+                variant="contained"
+                size='medium'
+                fullWidth
+                onClick={handleClick}
+                sx={{
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    py: 1.5
+                }}
+            >
                 {useDictionary().choose_file}
             </Button>
         </>

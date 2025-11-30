@@ -6,7 +6,18 @@ interface NonWordTokenProps {
 }
 
 const NonWordTokenComponent: React.FC<NonWordTokenProps> = ({ text }) => {
-    return <Typography paddingX={0}>{text}</Typography>;
+    return (
+        <Typography
+            component="span"
+            sx={{
+                display: 'inline',
+                padding: 0,
+                margin: 0
+            }}
+        >
+            {text}
+        </Typography>
+    );
 };
 
 export default NonWordTokenComponent;
