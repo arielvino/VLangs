@@ -19,6 +19,7 @@ const WordTokenComponent: React.FC<WordTokenProps> = ({ text, selected, onClick 
             component="span"
             borderRadius={0.4}
             paddingX={0.5}
+            marginRight={0.3}
             margin={0}
             sx={{
                 cursor: 'pointer',

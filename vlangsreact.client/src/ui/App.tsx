@@ -38,8 +38,18 @@ function App() {
         <Box
             sx={{
                 background: theme.palette.mode === 'dark'
-                    ? `linear-gradient(135deg, ${theme.palette.background.default} 0%, #1a2942 50%, ${theme.palette.background.default} 100%)`
-                    : `linear-gradient(135deg, ${theme.palette.background.default} 0%, #e0e7ff 50%, ${theme.palette.background.default} 100%)`,
+                    ? `
+                        radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        linear-gradient(135deg, ${theme.palette.background.default} 0%, #1a2942 40%, #162033 60%, ${theme.palette.background.default} 100%)
+                    `
+                    : `
+                        radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(244, 114, 182, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at top right, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                        linear-gradient(135deg, ${theme.palette.background.default} 0%, #e0e7ff 35%, #f0f4ff 65%, ${theme.palette.background.default} 100%)
+                    `,
                 overflowX: 'hidden',
                 width: '100%',
                 maxWidth: '100vw',

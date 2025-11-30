@@ -10,7 +10,7 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import idbManager from '../data/storage/idbStorage';
 import type { StorageInterface } from '../data/storage/StorageInterface';
 import { useDictionary } from './localization/Strings';
-import { ListAltTwoTone } from '@mui/icons-material';
+import { ListAltTwoTone, UploadFile, Article, Language, Check } from '@mui/icons-material';
 
 GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -282,90 +282,194 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
     return (
         <Box
             sx={{
-                maxWidth: 600,
+                maxWidth: 700,
                 margin: '0 auto',
                 padding: { xs: 2, sm: 3, md: 4 },
                 width: '100%'
             }}
         >
             <Card
-                elevation={4}
+                elevation={0}
                 sx={{
-                    borderRadius: 3,
-                    border: `2px solid ${theme.palette.divider}`
+                    borderRadius: 4,
+                    border: `2px solid ${theme.palette.divider}`,
+                    background: theme.palette.mode === 'dark'
+                        ? `linear-gradient(145deg, ${theme.palette.background.paper} 0%, rgba(42, 58, 82, 0.4) 100%)`
+                        : `linear-gradient(145deg, ${theme.palette.background.paper} 0%, rgba(224, 231, 255, 0.3) 100%)`,
+                    overflow: 'visible'
                 }}
             >
-                <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
-                    <Stack spacing={3}>
-                        <Typography
-                            variant={'h4'}
-                            textAlign={'center'}
-                            color='primary'
-                            sx={{ fontWeight: 600, mb: 1 }}
-                        >
-                            {dict.create_new_tab}
-                        </Typography>
-
-                        <TextField
-                            label={dict.tab_name}
-                            fullWidth
-                            value={newTabName}
-                            onChange={e => setNewTabName(e.target.value)}
-                            variant="outlined"
-                            sx={{
-                                '& input': {
-                                    textAlign: 'center',
-                                    fontSize: '1.1rem',
-                                }
-                            }}
-                        />
-
-                        <Box>
-                            <FileUpload
-                                onFileSelect={file => {
-                                    if (!file) return;
-
-                                    setLoading(true);
-                                    setNewTabPath(file.name);
-
-                                    const reader = new FileReader();
-                                    reader.onload = async () => {
-                                        const result = reader.result;
-                                        if (result instanceof ArrayBuffer) {
-                                            setContent(result.slice(0));
-                                            getDocument(result!).promise.then((doc) => {
-                                                setTotalPages(doc.numPages);
-                                                setLoading(false);
-                                            });
-                                        }
-                                    };
-                                    reader.readAsArrayBuffer(file);
-                                }}
-                            />
-                            {newTabPath && (
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{ mt: 1, textAlign: 'center' }}
-                                >
-                                    {newTabPath} {totalPages && `(${totalPages} ${dict.pages_count})`}
-                                </Typography>
-                            )}
+                <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
+                    <Stack spacing={4}>
+                        <Box sx={{ textAlign: 'center' }}>
+                            <Article sx={{ fontSize: 56, color: theme.palette.primary.main, mb: 2 }} />
+                            <Typography
+                                variant={'h4'}
+                                color='primary'
+                                sx={{ fontWeight: 700, mb: 1 }}
+                            >
+                                {dict.create_new_tab}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Upload a PDF and set your learning preferences
+                            </Typography>
                         </Box>
 
-                        <LanguageSelect
-                            label={dict.source_language}
-                            value={sourceLanguage}
-                            onChange={setSourceLanguage}
-                        />
+                        <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                                <Box
+                                    sx={{
+                                        bgcolor: theme.palette.primary.main,
+                                        color: 'white',
+                                        borderRadius: '50%',
+                                        width: 28,
+                                        height: 28,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontWeight: 700,
+                                        fontSize: '0.9rem',
+                                        mr: 1.5
+                                    }}
+                                >
+                                    1
+                                </Box>
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                    Tab Name
+                                </Typography>
+                            </Box>
+                            <TextField
+                                label={dict.tab_name}
+                                fullWidth
+                                value={newTabName}
+                                onChange={e => setNewTabName(e.target.value)}
+                                variant="outlined"
+                                placeholder="My Reading Material"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        bgcolor: theme.palette.background.default,
+                                        '&:hover': {
+                                            bgcolor: theme.palette.action.hover
+                                        }
+                                    }
+                                }}
+                            />
+                        </Box>
 
-                        <LanguageSelect
-                            label={dict.target_language}
-                            value={targetLanguage}
-                            onChange={setTargetLanguage}
-                        />
+                        <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                                <Box
+                                    sx={{
+                                        bgcolor: content ? theme.palette.success.main : theme.palette.primary.main,
+                                        color: 'white',
+                                        borderRadius: '50%',
+                                        width: 28,
+                                        height: 28,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontWeight: 700,
+                                        fontSize: '0.9rem',
+                                        mr: 1.5,
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    {content ? <Check sx={{ fontSize: 18 }} /> : '2'}
+                                </Box>
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                    Upload PDF
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    border: `2px dashed ${content ? theme.palette.success.main : theme.palette.divider}`,
+                                    borderRadius: 2,
+                                    p: 3,
+                                    textAlign: 'center',
+                                    bgcolor: theme.palette.background.default,
+                                    transition: 'all 0.3s ease',
+                                    '&:hover': {
+                                        borderColor: theme.palette.primary.main,
+                                        bgcolor: theme.palette.action.hover
+                                    }
+                                }}
+                            >
+                                <UploadFile sx={{ fontSize: 48, color: content ? theme.palette.success.main : theme.palette.text.secondary, mb: 1 }} />
+                                <FileUpload
+                                    onFileSelect={file => {
+                                        if (!file) return;
 
-                        <Stack spacing={2} sx={{ mt: 2 }}>
+                                        setLoading(true);
+                                        setNewTabPath(file.name);
+
+                                        const reader = new FileReader();
+                                        reader.onload = async () => {
+                                            const result = reader.result;
+                                            if (result instanceof ArrayBuffer) {
+                                                setContent(result.slice(0));
+                                                getDocument(result!).promise.then((doc) => {
+                                                    setTotalPages(doc.numPages);
+                                                    setLoading(false);
+                                                });
+                                            }
+                                        };
+                                        reader.readAsArrayBuffer(file);
+                                    }}
+                                />
+                                {newTabPath && (
+                                    <Box sx={{ mt: 2, p: 2, bgcolor: theme.palette.mode === 'dark' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(76, 175, 80, 0.05)', borderRadius: 1 }}>
+                                        <Typography variant="body1" sx={{ fontWeight: 600, color: theme.palette.success.main }}>
+                                            ✓ {newTabPath}
+                                        </Typography>
+                                        {totalPages && (
+                                            <Typography variant="body2" color="text.secondary">
+                                                {totalPages} {dict.pages_count}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                )}
+                            </Box>
+                        </Box>
+
+                        <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                                <Box
+                                    sx={{
+                                        bgcolor: (sourceLanguage !== targetLanguage && sourceLanguage) ? theme.palette.success.main : theme.palette.primary.main,
+                                        color: 'white',
+                                        borderRadius: '50%',
+                                        width: 28,
+                                        height: 28,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontWeight: 700,
+                                        fontSize: '0.9rem',
+                                        mr: 1.5,
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    {(sourceLanguage !== targetLanguage && sourceLanguage) ? <Check sx={{ fontSize: 18 }} /> : '3'}
+                                </Box>
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                    Languages
+                                </Typography>
+                            </Box>
+                            <Stack spacing={2}>
+                                <LanguageSelect
+                                    label={dict.source_language}
+                                    value={sourceLanguage}
+                                    onChange={setSourceLanguage}
+                                />
+                                <LanguageSelect
+                                    label={dict.target_language}
+                                    value={targetLanguage}
+                                    onChange={setTargetLanguage}
+                                />
+                            </Stack>
+                        </Box>
+
+                        <Stack spacing={2} sx={{ mt: 3 }}>
                             <Button
                                 onClick={() => {
                                     const tab: TabInfo = {
@@ -402,11 +506,18 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                                 variant="contained"
                                 disabled={!isInputValid}
                                 size="large"
+                                startIcon={<Check />}
                                 sx={{
-                                    py: 1.5,
+                                    py: 2,
                                     fontSize: '1.1rem',
                                     fontWeight: 600,
-                                    textTransform: 'none'
+                                    textTransform: 'none',
+                                    boxShadow: 3,
+                                    '&:hover': {
+                                        boxShadow: 6,
+                                        transform: 'translateY(-2px)'
+                                    },
+                                    transition: 'all 0.2s ease'
                                 }}
                             >
                                 {dict.ok}
@@ -418,7 +529,10 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                                 sx={{
                                     py: 1.5,
                                     fontSize: '1rem',
-                                    textTransform: 'none'
+                                    textTransform: 'none',
+                                    '&:hover': {
+                                        bgcolor: theme.palette.action.hover
+                                    }
                                 }}
                             >
                                 {dict.cancel}

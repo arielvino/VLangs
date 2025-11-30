@@ -134,7 +134,7 @@ const TextReader1: React.FC<TextReaderProps1> = ({ paragraphs, sourceLanguage, t
                         flexWrap: 'wrap',
                         direction: getDirection(sourceLanguage as LanguageOption) === 'ltr' ? 'ltr' : 'rtl',
                         rowGap: 0,
-                        columnGap: 0.1,
+                        columnGap: 0,
                     }}>
                         {paragraph.map((token, i) => (
 
