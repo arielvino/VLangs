@@ -81,14 +81,12 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack
-                    direction="row"
-                    spacing={{ xs: 4, sm: 5 }}
-                    alignItems="center"
+                <Box
                     sx={{
-                        '& > *': {
-                            flexShrink: 0
-                        }
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: { xs: 4, sm: 5 },
+                        alignItems: 'center'
                     }}
                 >
                     <Button
@@ -140,7 +138,7 @@ const VLangsAppBar: React.FC = () => {
                     >
                         {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
                     </IconButton>
-                </Stack>
+                </Box>
             </Toolbar>
         </AppBar>
     );

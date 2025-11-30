@@ -16,6 +16,12 @@ interface TabContextType {
     getTranslationOf: (word: string) => Promise<TranslationData>
     getSourceLanguage: () => string
     getTargetLanguage: () => string
+    // Text loading
+    text: string | null
+    isLoadingText: boolean
+    textError: string | null
+    currentPage: number
+    loadPage: (page: number) => void
 }
 
 const TabContext = createContext<TabContextType | null>(null)
@@ -29,6 +35,10 @@ export const useTab = () => {
 export const TabProvider = ({ tabId, children }: { tabId: string; children: ReactNode }) => {
     const [wordMap, setWordMap] = useState<Record<string, WordEntry>>({})
     const [tab, setTab] = useState<TabInfo | null>(null)
+    const [text, setText] = useState<string | null>(null)
+    const [isLoadingText, setIsLoadingText] = useState<boolean>(false)
+    const [textError, setTextError] = useState<string | null>(null)
+    const [currentPage, setCurrentPage] = useState<number>(1)
 
     if (!tabId) throw new Error("TabProvider requires a tabId");
 
@@ -98,6 +108,25 @@ export const TabProvider = ({ tabId, children }: { tabId: string; children: Reac
         storage.updateWordEntry(tabId, word, newState)
     }
 
+    const loadPage = (page: number) => {
+        setCurrentPage(page)
+        setText(null)
+        setIsLoadingText(true)
+        setTextError(null)
+
+        getPageText(page)
+            .then((loadedText) => {
+                console.log('Content loaded:', loadedText?.substring(0, 100))
+                setText(loadedText)
+                setIsLoadingText(false)
+            })
+            .catch((err) => {
+                console.error('Failed to load content:', err)
+                setTextError(err.message || 'Failed to load content')
+                setIsLoadingText(false)
+            })
+    }
+
     const getTranslationOf = async (word: string): Promise<TranslationData> => {
         const existing = wordMap[word]
         if (existing) return existing.translation
@@ -149,8 +178,21 @@ export const TabProvider = ({ tabId, children }: { tabId: string; children: Reac
     }
 
     const contextValue = useMemo(
-        () => ({ getTabId, getWordEntry, getPageText, updateWordState, getTranslationOf, getSourceLanguage, getTargetLanguage }),
-        [tabId, tab]
+        () => ({
+            getTabId,
+            getWordEntry,
+            getPageText,
+            updateWordState,
+            getTranslationOf,
+            getSourceLanguage,
+            getTargetLanguage,
+            text,
+            isLoadingText,
+            textError,
+            currentPage,
+            loadPage
+        }),
+        [tabId, tab, text, isLoadingText, textError, currentPage]
     )
 
     return (

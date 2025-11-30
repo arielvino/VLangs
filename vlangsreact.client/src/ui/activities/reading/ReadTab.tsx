@@ -9,7 +9,7 @@ import { Box } from "@mui/system";
 import { ArrowBackRounded, ArrowBackTwoTone, ArrowForwardRounded, ArrowForwardTwoTone } from "@mui/icons-material";
 import { getDirection, type LanguageOption } from "../tab_creation/LanguageSelector";
 import { TabProvider } from "../../../contexts/TabContext";
-import TextLoader from "./TextLoader";
+import TabTextLoader from "./TabTextLoader";
 
 const storage: StorageInterface = idbStorage;
 
@@ -59,7 +59,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 margin: '0 auto',
                 padding: { xs: 1, sm: 2 },
                 alignItems: 'center',
-                maxWidth: { xs: '100%', sm: '900px', md: '1000px' },
+                maxWidth: { xs: '100%', sm: '700px', md: '850px', lg: '900px' },
                 width: '100%',
                 boxSizing: 'border-box',
                 overflowX: 'hidden'
@@ -219,7 +219,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 }}
             >
                 <TabProvider tabId={tabId}>
-                    <TextLoader page={page} />
+                    <TabTextLoader page={page} />
                 </TabProvider>
             </Box>
         </Stack>

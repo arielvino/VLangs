@@ -1,13 +1,11 @@
 import { useEffect, useState, useRef } from "react"
+import { useTab } from "../../contexts/TabContext"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
-import { useTheme, Box, Stack } from "@mui/material"
+import { useTheme, Box, Stack, CircularProgress, Typography } from "@mui/material"
 
-interface LearnableTextProps {
-    text: string
-}
-
-const LearnableText: React.FC<LearnableTextProps> = ({ text }) => {
+const LearnableText: React.FC = () => {
+    const tab = useTab()
     const theme = useTheme()
     const [translation, setTranslation] = useState<TranslationData | null>(null)
     const [coords, setCoords] = useState<{ x: number; y: number } | null>(null)
@@ -16,7 +14,6 @@ const LearnableText: React.FC<LearnableTextProps> = ({ text }) => {
     const onWordClick = (translationData: TranslationData, sender: HTMLElement) => {
         setTranslation(translationData)
         const rect = sender.getBoundingClientRect()
-        // Position popup below the word, using absolute positioning to scroll with page
         const x = rect.left + window.scrollX
         const y = rect.bottom + window.scrollY
         setCoords({ x, y })
@@ -39,15 +36,54 @@ const LearnableText: React.FC<LearnableTextProps> = ({ text }) => {
         }
     }, [translation, coords])
 
-    // Split text into paragraphs on empty lines (double newlines)
-    const paragraphs = text
-        .split(/\n\s*\n/) // split on empty line
+    if (tab.isLoadingText) {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
+                <CircularProgress />
+                <Typography variant="body2" color="text.secondary">
+                    Loading content...
+                </Typography>
+            </Box>
+        )
+    }
+
+    if (tab.textError) {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
+                <Typography variant="h6" color="error">
+                    Error Loading Content
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {tab.textError}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                    Unable to load the requested content.
+                </Typography>
+            </Box>
+        )
+    }
+
+    if (!tab.text || tab.text.trim().length === 0) {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, py: 4 }}>
+                <Typography variant="h6" color="text.secondary">
+                    No content found
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    The content appears to be empty or couldn't be extracted.
+                </Typography>
+            </Box>
+        )
+    }
+
+    // Split text into paragraphs on empty lines
+    const paragraphs = tab.text
+        .split(/\n\s*\n/)
         .map(p => p.trim())
         .filter(Boolean)
 
     // Tokenize each paragraph
     const tokenizeParagraph = (paragraph: string) => {
-        // Match words, whitespace sequences, and punctuation separately
         const tokens = paragraph.match(/(\p{L}+\p{M}*|\s+|[^\p{L}\p{M}\s])/gu) || []
         return tokens
     }
@@ -73,20 +109,16 @@ const LearnableText: React.FC<LearnableTextProps> = ({ text }) => {
                         >
                             {tokens.map((token, i) => {
                                 if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
-                                    // It's a word
                                     return <WordSpan key={`w-${pIndex}-${i}`} word={token} showTranslationOnParent={onWordClick} />
-                                } else if (/^\s+$/.test(token)) {
-                                    // It's whitespace - preserve it
-                                    return <span key={`ws-${pIndex}-${i}`}>{token}</span>
                                 } else {
-                                    // It's punctuation or other characters
                                     return (
                                         <span
                                             key={`nw-${pIndex}-${i}`}
                                             style={{
                                                 display: 'inline',
                                                 padding: 0,
-                                                margin: 0
+                                                margin: 0,
+                                                whiteSpace: 'pre-wrap'
                                             }}
                                         >
                                             {token}
