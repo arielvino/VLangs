@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { TabInfo } from '../../../data/models/TabInfo';
-import { Button, Stack, Typography, useTheme } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import idbManager from '../../../data/storage/idbStorage';
 import type { StorageInterface } from '../../../data/storage/StorageInterface';
 import { useDictionary } from '../../localization/Strings';
@@ -16,7 +16,6 @@ interface TabsListProps {
 
 export const TabsList: React.FC<TabsListProps> = ({ createPressed, navigateToTab, navigateToWordsOfTab }) => {
     const [tabs, setTabs] = useState<TabInfo[]>([]);
-    const theme = useTheme();
     const dict = useDictionary();
 
     const refreshTabsList = () => {
