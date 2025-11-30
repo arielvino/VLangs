@@ -28,16 +28,22 @@ const VLangsAppBar: React.FC = () => {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
             }}
         >
-            <Toolbar sx={{ py: { xs: 0.75, sm: 1.25 }, minHeight: { xs: 56, sm: 64 }, px: { xs: 2, sm: 3 } }}>
+            <Toolbar sx={{
+                py: { xs: 1.5, sm: 2 },
+                minHeight: { xs: 64, sm: 72 },
+                px: { xs: 2, sm: 4 },
+                gap: 2
+            }}>
                 {/* App title */}
                 <Typography
                     color="primary"
                     sx={{
                         fontFamily: theme.typography.fontFamily?.at(1),
-                        fontWeight: 700,
+                        fontWeight: 800,
                         letterSpacing: '-0.5px',
-                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-                        textShadow: `1px 1px 2px ${theme.palette.primary.dark}40`
+                        fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.5rem' },
+                        textShadow: `2px 2px 4px ${theme.palette.primary.dark}50`,
+                        flexShrink: 0
                     }}
                     component="div"
                 >
@@ -48,50 +54,53 @@ const VLangsAppBar: React.FC = () => {
                 <Box sx={{ flexGrow: 1 }} />
 
                 {/* Controls */}
-                <Stack direction="row" spacing={{ xs: 1, sm: 2 }} alignItems="center">
+                <Stack direction="row" spacing={{ xs: 1.5, sm: 2.5 }} alignItems="center">
                     <Button
                         color="secondary"
-                        size="small"
+                        size="medium"
                         variant="outlined"
                         sx={{
-                            borderWidth: 2,
-                            borderRadius: 2,
+                            borderWidth: 2.5,
+                            borderRadius: 2.5,
                             textTransform: 'none',
-                            fontWeight: 600,
-                            px: { xs: 1.5, sm: 2 },
-                            py: { xs: 0.5, sm: 0.75 },
-                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                            fontWeight: 700,
+                            px: { xs: 2, sm: 2.5 },
+                            py: { xs: 0.75, sm: 1 },
+                            fontSize: { xs: '0.85rem', sm: '0.95rem' },
                             minWidth: { xs: 'auto', sm: 'auto' },
+                            boxShadow: 1,
                             ":hover": {
-                                borderWidth: 2,
-                                transform: 'scale(1.05)',
-                                boxShadow: 2
+                                borderWidth: 2.5,
+                                transform: 'scale(1.08)',
+                                boxShadow: 3,
+                                bgcolor: theme.palette.secondary.main + '15'
                             },
-                            transition: 'all 0.2s ease'
+                            transition: 'all 0.15s ease-out'
                         }}
                         onClick={() => toggleLanguage()}
                     >
                         {useLanguage().language === 'en' ? 'עברית' : 'English'}
                     </Button>
                     <IconButton
-                        size='small'
+                        size='medium'
                         color="secondary"
                         sx={{
                             bgcolor: theme.palette.background.default,
-                            border: `2px solid ${theme.palette.secondary.main}`,
-                            borderRadius: 2,
-                            p: { xs: 0.5, sm: 1 },
+                            border: `2.5px solid ${theme.palette.secondary.main}`,
+                            borderRadius: 2.5,
+                            p: { xs: 0.75, sm: 1.25 },
+                            boxShadow: 1,
                             ":hover": {
                                 bgcolor: theme.palette.secondary.main,
                                 color: theme.palette.background.paper,
-                                transform: 'scale(1.05)',
-                                boxShadow: 2
+                                transform: 'scale(1.08)',
+                                boxShadow: 3
                             },
-                            transition: 'all 0.2s ease'
+                            transition: 'all 0.15s ease-out'
                         }}
                         onClick={() => setTheme(mode === 'dark' ? 'light' : 'dark')}
                     >
-                        {mode === 'dark' ? <LightModeTwoTone fontSize="small" /> : <DarkModeTwoTone fontSize="small" />}
+                        {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
                     </IconButton>
                 </Stack>
             </Toolbar>

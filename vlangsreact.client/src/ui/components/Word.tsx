@@ -52,7 +52,7 @@ const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: 
             borderRadius: "0.25em",
             padding: "0.05em 0.02em",
             cursor: "pointer",
-            transition: "all 0.2s ease",
+            transition: "all 0.1s ease-out",
             ":hover": {
                 bgcolor: wordEntry ? determineBgColor(wordEntry) : theme.palette.primary.main,
                 transform: "scale(1.1)",

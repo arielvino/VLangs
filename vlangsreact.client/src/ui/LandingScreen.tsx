@@ -104,7 +104,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                         transform: 'translateY(-2px)',
                         boxShadow: 8
                     },
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.15s ease-out'
                 }}
             >
                 {dict.get_started}
@@ -120,12 +120,17 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onNavigateToTabsMenu }) =
                             width: '100%',
                             transition: 'all 0.3s ease',
                             border: `2px solid ${theme.palette.divider}`,
-                            bgcolor: 'background.paper',
+                            background: theme.palette.mode === 'dark'
+                                ? `linear-gradient(145deg, ${theme.palette.background.paper} 0%, #2a3a52 100%)`
+                                : `linear-gradient(145deg, ${theme.palette.background.paper} 0%, #f0f4ff 100%)`,
                             boxSizing: 'border-box',
                             '&:hover': {
                                 transform: 'translateY(-4px)',
                                 borderColor: theme.palette.primary.main,
-                                boxShadow: 6
+                                boxShadow: 6,
+                                background: theme.palette.mode === 'dark'
+                                    ? `linear-gradient(145deg, #2a3a52 0%, ${theme.palette.background.paper} 100%)`
+                                    : `linear-gradient(145deg, #f0f4ff 0%, ${theme.palette.background.paper} 100%)`
                             }
                         }}
                     >

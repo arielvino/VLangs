@@ -36,11 +36,14 @@ function App() {
 
     return (
         <Box
-            bgcolor={theme.palette.background.default}
             sx={{
+                background: theme.palette.mode === 'dark'
+                    ? `linear-gradient(135deg, ${theme.palette.background.default} 0%, #1a2942 50%, ${theme.palette.background.default} 100%)`
+                    : `linear-gradient(135deg, ${theme.palette.background.default} 0%, #e0e7ff 50%, ${theme.palette.background.default} 100%)`,
                 overflowX: 'hidden',
                 width: '100%',
-                maxWidth: '100vw'
+                maxWidth: '100vw',
+                minHeight: '100vh'
             }}
         >
             <VLangsAppBar />

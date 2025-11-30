@@ -137,7 +137,19 @@ const LearnableText: React.FC<LearnableTextProps> = ({ page = 1 }) => {
                                 if (/^\p{L}[\p{L}\p{M}]*$/u.test(token)) {
                                     return <WordSpan key={`w-${pIndex}-${i}`} word={token} showTranslationOnParent={onWordClick} />
                                 } else {
-                                    return <span key={`nw-${pIndex}-${i}`}>{token}</span>
+                                    return (
+                                        <span
+                                            key={`nw-${pIndex}-${i}`}
+                                            style={{
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                alignSelf: 'center',
+                                                margin: '0.25em'
+                                            }}
+                                        >
+                                            {token}
+                                        </span>
+                                    )
                                 }
                             })}
                             <Box flexGrow={1} />

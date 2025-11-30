@@ -56,11 +56,13 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
         <Stack
             spacing={3}
             sx={{
-                margin: { xs: 2, sm: 3 },
+                margin: 0,
+                padding: { xs: 1, sm: 2 },
                 alignItems: 'center',
-                maxWidth: 800,
-                mx: 'auto',
-                width: '100%'
+                maxWidth: '100%',
+                width: '100%',
+                boxSizing: 'border-box',
+                overflowX: 'hidden'
             }}
         >
             {/* Header with title and back button */}
@@ -68,13 +70,16 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                 spacing={2}
                 direction={dict.direction === 'ltr' ? 'row' : 'row-reverse'}
                 sx={{
-                    padding: 2,
+                    padding: { xs: 1, sm: 2 },
                     width: '100%',
+                    maxWidth: '100%',
                     alignItems: 'center',
                     bgcolor: theme.palette.background.paper,
                     borderRadius: 2,
                     border: `2px solid ${theme.palette.divider}`,
-                    boxShadow: 2
+                    boxShadow: 2,
+                    boxSizing: 'border-box',
+                    overflowX: 'hidden'
                 }}
             >
                 <Typography
@@ -111,14 +116,17 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
             <Box
                 sx={{
                     width: '100%',
+                    maxWidth: '100%',
                     bgcolor: theme.palette.background.paper,
                     borderRadius: 2,
-                    p: 3,
+                    p: { xs: 2, sm: 3 },
                     border: `2px solid ${theme.palette.divider}`,
-                    boxShadow: 2
+                    boxShadow: 2,
+                    boxSizing: 'border-box',
+                    overflowX: 'hidden'
                 }}
             >
-                <Stack spacing={3}>
+                <Stack spacing={{ xs: 2, sm: 3 }} sx={{ width: '100%', maxWidth: '100%' }}>
                     <Slider
                         aria-label="Page Number"
                         value={page}
@@ -129,6 +137,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                         min={1}
                         max={tab.totalPages || 100}
                         sx={{
+                            width: '100%',
                             '& .MuiSlider-thumb': {
                                 width: 20,
                                 height: 20
@@ -137,10 +146,12 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
                     />
                     <Box sx={{
                         display: 'flex',
-                        gap: { xs: 1, sm: 2 },
+                        gap: { xs: 0.5, sm: 1 },
                         alignItems: 'center',
                         justifyContent: 'center',
-                        flexWrap: { xs: 'wrap', sm: 'nowrap' }
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        maxWidth: '100%'
                     }}>
                         <Button
                             variant={'contained'}
@@ -201,12 +212,16 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
             <Box
                 sx={{
                     width: '100%',
+                    maxWidth: '100%',
                     bgcolor: theme.palette.background.paper,
                     borderRadius: 2,
-                    p: 3,
+                    p: { xs: 2, sm: 3 },
                     border: `2px solid ${theme.palette.divider}`,
                     boxShadow: 2,
-                    minHeight: 400
+                    minHeight: 400,
+                    boxSizing: 'border-box',
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
                 }}
             >
                 <TabProvider tabId={tabId}>
