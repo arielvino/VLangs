@@ -1,6 +1,8 @@
 import { Button, Stack, Typography, Box, Card, CardContent } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { MenuBook, Translate, TrendingUp } from '@mui/icons-material';
+import MenuBook from '@mui/icons-material/MenuBook';
+import Translate from '@mui/icons-material/Translate';
+import TrendingUp from '@mui/icons-material/TrendingUp';
 import { useDictionary } from './localization/Strings';
 
 interface LandingScreenProps {

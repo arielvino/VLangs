@@ -2,7 +2,7 @@ import React from 'react';
 import type { TabInfo } from '../../../data/models/TabInfo';
 import { Button, IconButton, Typography, useTheme } from '@mui/material';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
-import { ListAltTwoTone } from '@mui/icons-material';
+import ListAltTwoTone from '@mui/icons-material/ListAltTwoTone';
 import { useDictionary } from '../../localization/Strings';
 
 interface TabListItemProps {

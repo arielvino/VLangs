@@ -4,7 +4,8 @@ import type { StorageInterface } from '../data/storage/StorageInterface';
 import { type WordEntry } from '../data/models/WordEntry'
 import { Box, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useDictionary } from './localization/Strings';
-import { ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material';
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded';
+import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import type { TabInfo } from '../data/models/TabInfo';
 
 const storage: StorageInterface = idbStorage;
