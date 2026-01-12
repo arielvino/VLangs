@@ -16,6 +16,8 @@ services:
       dockerfile: ./Dockerfile.dev
     ports:
       - "3000:3000"
+    environment:
+      - VITE_API_URL=http://server:80
     security_opt:
       - label=disable
     cap_add:
