@@ -371,4 +371,3 @@ FodyWeavers.xsd
 .env.*.local
 .env
 rebuild-and-open.fish
-stats.html
