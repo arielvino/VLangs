@@ -16,7 +16,7 @@ sleep 2
 
 # Take down current container
 echo "Stopping containers..."
-docker-compose -f $COMPOSE_FILE down 2>/dev/null
+docker-compose -f $COMPOSE_FILE down --remove-orphans 2>/dev/null
 
 # Build without cache (Docker handles React build via esproj ProjectReference)
 echo "Building Docker image (no cache)..."
@@ -54,9 +54,9 @@ xdg-open $URL
 
 # Calculate elapsed time
 set end_time (date +%s)
-set duration (math $end_time - $start_time)
-set minutes (math $duration / 60)
-set seconds (math $duration % 60)
+set duration (math --scale=0 $end_time - $start_time)
+set minutes (math --scale=0 $duration / 60)
+set seconds (math --scale=0 $duration % 60)
 
 echo "✓ Done! Local server running at $URL"
 echo "✓ Azure deployment updated at https://vlangs.org"

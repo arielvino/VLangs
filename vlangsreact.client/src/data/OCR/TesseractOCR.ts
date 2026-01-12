@@ -1,9 +1,9 @@
 import type InterfaceOCR from './InterfaceOCR';
 import { getDocument, GlobalWorkerOptions, type PDFDocumentProxy } from "pdfjs-dist";
 import Tesseract from 'tesseract.js';
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// Use CDN for PDF.js worker to reduce bundle size
+GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.4.530/build/pdf.worker.min.mjs';
 
 
 class TesseractOCR implements InterfaceOCR {
@@ -54,9 +54,9 @@ class TesseractOCR implements InterfaceOCR {
                 canvas,
                 this.getTesseractLang(sourceLanguage),
                 {
-                    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5/tesseract-core.wasm.js',
-                    langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/' + this.getTesseractLang(sourceLanguage) + '@1.0.0/4.0.0_best_int/',
-                    gzip: true,
+                    workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/worker.min.js',
+                    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@6.0.0/tesseract-core.wasm.js',
+                    langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/' + this.getTesseractLang(sourceLanguage) + '/4.0.0_best/',
                 }
             );
 
