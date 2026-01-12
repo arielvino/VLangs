@@ -1,38 +1,36 @@
 #!/usr/bin/env fish
 
-set COMPOSE_FILE "docker-compose.dev.yml"
-set URL "http://localhost:3000"
-
-# Start timer
 set start_time (date +%s)
 
-# Start Docker daemon
-echo "Starting Docker daemon..."
-systemctl start docker
-sleep 2
-
-# Navigate to project root if not already there
+# Navigate to project root
 if not test -d vlangsreact.client
-    echo "Finding project root..."
     if test -d ../vlangsreact.client
         cd ..
     end
 end
 
-# Clean up and start containers
-echo "Stopping existing containers..."
-docker-compose -f $COMPOSE_FILE down 2>/dev/null
+echo "Starting development servers (no Docker)..."
+echo "Building React once..."
+cd vlangsreact.client
+npm run build
+cd ..
 
-echo "Starting development containers..."
-docker system prune -f
-docker-compose -f $COMPOSE_FILE up
+echo "Server:  dotnet run (http://localhost:5000)"
+echo "Client:  npm run dev (http://localhost:3000)"
+echo ""
 
-# Calculate elapsed time
-set end_time (date +%s)
-set duration (math $end_time - $start_time)
-set minutes (math $duration / 60)
-set seconds (math $duration % 60)
+# Start server in background
+cd VLangsReact.Server
+dotnet run &
+cd ..
 
+# Start client
+sleep 2
+cd vlangsreact.client
+npm run dev
+
+# Cleanup on exit
+pkill -f "dotnet run" 2>/dev/null
 echo "✓ Done!"
 echo "  Server:  http://localhost:5000"
 echo "  Client:  $URL"
