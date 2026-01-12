@@ -30,7 +30,7 @@ export default defineConfig({
         minify: 'terser',
         terserOptions: {
             compress: {
-                drop_console: true,
+                drop_console: false, // Keep console for now to debug issues
                 drop_debugger: true
             }
         },
