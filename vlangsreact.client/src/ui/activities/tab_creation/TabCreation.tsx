@@ -9,7 +9,9 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import idbManager from '../../../data/storage/idbStorage';
 import type { StorageInterface } from '../../../data/storage/StorageInterface';
 import { useDictionary } from '../../localization/Strings';
-import { UploadFile, Article, Check } from '@mui/icons-material';
+import UploadFile from '@mui/icons-material/UploadFile';
+import Article from '@mui/icons-material/Article';
+import Check from '@mui/icons-material/Check';
 
 GlobalWorkerOptions.workerSrc = pdfjsWorker;
 

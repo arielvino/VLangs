@@ -4,8 +4,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DarkModeTwoTone from '@mui/icons-material/DarkModeTwoTone';
+import LightModeTwoTone from '@mui/icons-material/LightModeTwoTone';
 import { Box, Button, useTheme } from '@mui/material';
-import { LightModeTwoTone } from '@mui/icons-material';
 import { useThemeMode } from './themes/ThemeManager'
 import { useLanguage } from './localization/LanguageManager';
 import { useDictionary } from './localization/Strings';
