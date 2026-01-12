@@ -5,7 +5,6 @@ import { LANGUAGE_OPTIONS, type LanguageOption } from './LanguageSelector';
 import LanguageSelect from './LanguageSelector';
 import FileUpload from './FileUpload';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import idbManager from '../../../data/storage/idbStorage';
 import type { StorageInterface } from '../../../data/storage/StorageInterface';
 import { useDictionary } from '../../localization/Strings';
@@ -13,7 +12,8 @@ import UploadFile from '@mui/icons-material/UploadFile';
 import Article from '@mui/icons-material/Article';
 import Check from '@mui/icons-material/Check';
 
-GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// Use CDN for PDF.js worker to reduce bundle size
+GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs';
 
 const storage: StorageInterface = idbManager;
 

@@ -1,9 +1,9 @@
 import type InterfaceOCR from './InterfaceOCR';
 import { getDocument, GlobalWorkerOptions, type PDFDocumentProxy } from "pdfjs-dist";
 import Tesseract from 'tesseract.js';
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// Use CDN for PDF.js worker to reduce bundle size
+GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs';
 
 
 class TesseractOCR implements InterfaceOCR {
