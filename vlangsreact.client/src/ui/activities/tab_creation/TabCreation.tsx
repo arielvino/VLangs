@@ -13,7 +13,7 @@ import Article from '@mui/icons-material/Article';
 import Check from '@mui/icons-material/Check';
 
 // Use CDN for PDF.js worker to reduce bundle size
-GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs';
+GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.3.31/build/pdf.worker.min.mjs';
 
 const storage: StorageInterface = idbManager;
 
