@@ -208,6 +208,7 @@ export const ReadTab: React.FC<ReadTabProps> = ({ tabId, onBackPressed }) => {
 
             {/* Content area */}
             <Box
+                dir={getDirection((tab.sourceLanguage || 'en') as LanguageOption)}
                 sx={{
                     width: '100%',
                     bgcolor: theme.palette.background.paper,
