@@ -56,7 +56,7 @@ class TesseractOCR implements InterfaceOCR {
                 {
                     workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/worker.min.js',
                     corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@6.0.0/tesseract-core.wasm.js',
-                    langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/' + this.getTesseractLang(sourceLanguage) + '/4.0.0_best/',
+                    langPath: 'https://tessdata.projectnaptha.com/4.0.0',
                 }
             );
 
