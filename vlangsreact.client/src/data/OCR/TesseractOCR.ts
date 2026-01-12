@@ -3,7 +3,7 @@ import { getDocument, GlobalWorkerOptions, type PDFDocumentProxy } from "pdfjs-d
 import Tesseract from 'tesseract.js';
 
 // Use CDN for PDF.js worker to reduce bundle size
-GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.3.31/build/pdf.worker.min.mjs';
+GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.4.530/build/pdf.worker.min.mjs';
 
 
 class TesseractOCR implements InterfaceOCR {
