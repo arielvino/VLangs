@@ -2,7 +2,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./Dockerfile.server
+      dockerfile: ./dockerfile.server
     ports:
       - "80:80"
     environment:

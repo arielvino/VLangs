@@ -39,15 +39,24 @@ class TesseractOCR implements InterfaceOCR {
             await pageContent.render({ canvasContext: context, canvas, viewport }).promise;
 
             // run OCR
+            // const { data } = await Tesseract.recognize(
+            //     canvas,
+            //     this.getTesseractLang(sourceLanguage),
+            //     {
+            //         workerPath: '/tesseract/worker.min.js',
+            //         corePath: '/tesseract/',
+            //         workerBlobURL: false,
+            //         gzip: false,
+            //         langPath: '/tesseract/tessdata',
+            //     }
+            // );
             const { data } = await Tesseract.recognize(
                 canvas,
                 this.getTesseractLang(sourceLanguage),
                 {
-                    workerPath: '/tesseract/worker.min.js',
-                    corePath: '/tesseract/',
-                    workerBlobURL: false,
-                    gzip: false,
-                    langPath: '/tesseract/tessdata',
+                    corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5/tesseract-core.wasm.js',
+                    langPath: 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/' + this.getTesseractLang(sourceLanguage) + '@1.0.0/4.0.0_best_int/',
+                    gzip: true,
                 }
             );
 
