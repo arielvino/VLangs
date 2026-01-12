@@ -50,12 +50,13 @@ export default defineConfig({
                         if (id.includes('@mui/icons-material')) {
                             return 'mui-icons';
                         }
-                        // Material UI core + Emotion (grouped together to avoid circular deps)
-                        if (id.includes('@mui/') || id.includes('@emotion/')) {
+                        // Material UI core (without emotion to avoid circular deps)
+                        if (id.includes('@mui/material') || id.includes('@mui/system')) {
                             return 'mui-core';
                         }
-                        // React, ReactDOM, and related libraries
-                        if (id.includes('react') || id.includes('scheduler')) {
+                        // React, ReactDOM, Emotion, and related libraries (grouped together)
+                        // Emotion must be with React to avoid circular dependencies
+                        if (id.includes('react') || id.includes('scheduler') || id.includes('@emotion/')) {
                             return 'react-vendor';
                         }
                         // IDB and other utilities
