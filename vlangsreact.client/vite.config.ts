@@ -38,21 +38,29 @@ export default defineConfig({
             output: {
                 manualChunks: (id) => {
                     if (id.includes('node_modules')) {
-                        // Split large libraries into separate chunks
-                        if (id.includes('@mui/material') || id.includes('@mui/system') || id.includes('@emotion')) {
-                            return 'mui-core';
-                        }
-                        if (id.includes('@mui/icons-material')) {
-                            return 'mui-icons';
-                        }
+                        // PDF.js - large library, only loaded when needed
                         if (id.includes('pdfjs-dist')) {
                             return 'pdf';
                         }
-                        if (id.includes('tesseract')) {
+                        // Tesseract OCR - only loaded when needed
+                        if (id.includes('tesseract.js')) {
                             return 'tesseract';
                         }
-                        if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+                        // Material UI icons - separate for better caching
+                        if (id.includes('@mui/icons-material')) {
+                            return 'mui-icons';
+                        }
+                        // Material UI core + Emotion (grouped together to avoid circular deps)
+                        if (id.includes('@mui/') || id.includes('@emotion/')) {
+                            return 'mui-core';
+                        }
+                        // React, ReactDOM, and related libraries
+                        if (id.includes('react') || id.includes('scheduler')) {
                             return 'react-vendor';
+                        }
+                        // IDB and other utilities
+                        if (id.includes('idb')) {
+                            return 'utilities';
                         }
                     }
                 },
