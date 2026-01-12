@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-# Install Node.js 22
+# Install Node.js 22 (needed for esproj to parse, but won't build)
 RUN apt-get update && \
     apt-get install -y ca-certificates curl gnupg && \
     mkdir -p /etc/apt/keyrings && \
@@ -18,7 +18,8 @@ COPY vlangsreact.client/ ./vlangsreact.client/
 RUN dotnet restore VLangsReact.Server/VLangsReact.Server.csproj
 
 WORKDIR /src/VLangsReact.Server
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+# Skip React build in dev - Vite dev server handles it
+RUN dotnet publish -c Debug -o /app/publish /p:UseAppHost=false /p:CopyReactBuildToWwwroot=false
 
 # Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0

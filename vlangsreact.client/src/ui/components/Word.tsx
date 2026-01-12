@@ -16,9 +16,6 @@ const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: 
 
         return wordEntry.known ? theme.palette.success.main : theme.palette.error.main;
     }
-    const determineHoverBgColor = (wordEntry: WordEntry | null) => {
-        return wordEntry ? 'inherit' : theme.palette.primary.main;
-    }
 
     const handleClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
         const sender = e.currentTarget  // store immediately
@@ -51,10 +48,16 @@ const WordSpan: React.FC<{ word: string, showTranslationOnParent: (translation: 
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: determineBgColor(wordEntry),
-            margin: "0.25em",
+            marginRight: "0.1em",
             borderRadius: "0.25em",
             padding: "0.05em 0.02em",
-            ":hover": { bgcolor: determineHoverBgColor(wordEntry) }
+            cursor: "pointer",
+            transition: "all 0.1s ease-out",
+            ":hover": {
+                bgcolor: wordEntry ? determineBgColor(wordEntry) : theme.palette.primary.main,
+                transform: "scale(1.1)",
+                boxShadow: 1
+            }
         }}
         onClick={handleClick}
     >

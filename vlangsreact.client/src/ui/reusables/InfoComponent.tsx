@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import type React from "react";
 import { useDictionary } from "../localization/Strings";
-import { InfoOutlined } from "@mui/icons-material";
+import InfoOutlined from "@mui/icons-material/InfoOutlined";
 
 interface InfoComponentProps {
     message: string;
@@ -17,7 +17,7 @@ const InfoComponent: React.FC<InfoComponentProps> = ({ message }) => {
         flexDirection={dict.direction === 'ltr' ? 'row' : 'row-reverse'}
         sx={{
             border: `1px solid ${theme.palette.info.main}`,
-            p: 1, // optional padding so content doesn’t touch the border
+            p: 1, // optional padding so content doesnï¿½t touch the border
             borderRadius: 1, // optional rounding
         }}
     >
