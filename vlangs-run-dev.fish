@@ -31,3 +31,7 @@ npm run dev
 
 # Cleanup on exit
 pkill -f "dotnet run" 2>/dev/null
+echo "✓ Done!"
+echo "  Server:  http://localhost:5000"
+echo "  Client:  $URL"
+printf "⏱ Total time: %02d:%02d\n" $minutes $seconds
