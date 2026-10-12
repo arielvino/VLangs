@@ -1,6 +1,7 @@
 // TextProvider.ts
 
 import TesseractOCR from "../OCR/TesseractOCR";
+import EpubReader from "../EpubReader";
 import idbStorage from "./idbStorage";
 import type { StorageInterface } from "./StorageInterface";
 
@@ -31,6 +32,12 @@ export class TextProvider {
                 case 'pdf': {
                     let result = await TesseractOCR.extractPdfPage(fileContent, pageNumber, tab.sourceLanguage || 'eng');
                     if (!result) throw new Error("OCR failed to extract text");
+                    text = result;
+                    break;
+                }
+                case 'epub': {
+                    const result = await EpubReader.extractPage(fileContent, pageNumber);
+                    if (result === null) throw new Error("Failed to extract EPUB text");
                     text = result;
                     break;
                 }
