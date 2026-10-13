@@ -3,6 +3,7 @@ import { useTab } from "../../contexts/TabContext"
 import WordSpan from "./Word"
 import type { TranslationData } from "../../data/models/TranslationData"
 import { useTheme, Box, Stack, CircularProgress, Typography } from "@mui/material"
+import { getDirection, type LanguageOption } from "../activities/tab_creation/LanguageSelector"
 
 const LearnableText: React.FC = () => {
     const tab = useTab()
@@ -90,7 +91,7 @@ const LearnableText: React.FC = () => {
 
     return (
         <>
-            <Stack spacing={2}>
+            <Stack spacing={2} dir={getDirection((tab.getSourceLanguage() || 'en') as LanguageOption)}>
                 {paragraphs.map((paragraph, pIndex) => {
                     const tokens = tokenizeParagraph(paragraph)
                     return (

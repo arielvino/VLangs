@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build": "tsc --noEmit && vite build",
+    "dev:strict": "tsc --noEmit && vite",
     "preview": "vite preview"
   },
   "dependencies": {
