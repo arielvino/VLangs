@@ -40,10 +40,16 @@ const getSpine = async (zip: JSZip): Promise<string[]> => {
 const htmlToText = (html: string): string => {
     const doc = parseXml(html, 'text/html');
     doc.querySelectorAll('script, style, head').forEach(el => el.remove());
+    // Source line breaks are just whitespace in HTML; only <br> and block elements break text.
+    const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        node.nodeValue = (node.nodeValue ?? '').replace(/\s+/g, ' ');
+    }
     doc.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
-    doc.querySelectorAll('p, div, h1, h2, h3, h4, h5, h6, li, tr, blockquote').forEach(el => el.append('\n'));
-    return (doc.body?.textContent ?? '')
-        .replace(/[ \t ]+/g, ' ')
+    // Blank line between blocks, matching how the reader splits paragraphs
+    doc.querySelectorAll('p, div, h1, h2, h3, h4, h5, h6, li, tr, blockquote, pre').forEach(el => el.append('\n\n'));
+    return (doc.body.textContent ?? '')
+        .replace(/[ \t\u00a0]+/g, ' ')
         .replace(/ ?\n ?/g, '\n')
         .replace(/\n{3,}/g, '\n\n')
         .trim();
