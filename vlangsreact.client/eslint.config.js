@@ -8,15 +8,16 @@ export default tseslint.config(
     { ignores: ['dist'] },
     {
         extends: [js.configs.recommended,
-        //...tseslint.config.recommended,
-        ...tseslint.configs.strictTypeChecked,//
-        ...tseslint.configs.stylisticTypeChecked],//
+        ...tseslint.configs.recommendedTypeChecked,
+        ...tseslint.configs.stylisticTypeChecked],
         files: ['**/*.{ts,tsx}'],
         languageOptions: {
             ecmaVersion: 2020,
             globals: globals.browser,
-            project: ['./tsconfig.node.json', './tsconfig.app.json'],//
-            tsconfigRootDir: import.meta.dirname,//
+            parserOptions: {
+                project: ['./tsconfig.node.json', './tsconfig.app.json'],
+                tsconfigRootDir: import.meta.dirname,
+            },
         },
         plugins: {
             'react-hooks': reactHooks,
@@ -31,20 +32,3 @@ export default tseslint.config(
         },
     },
 )
-//export default tseslint.config({
-//    extends: [
-//        // Remove ...tseslint.configs.recommended and replace with this
-//        ...tseslint.configs.recommendedTypeChecked,
-//        // Alternatively, use this for stricter rules
-//        ...tseslint.configs.strictTypeChecked,
-//        // Optionally, add this for stylistic rules
-//        ...tseslint.configs.stylisticTypeChecked,
-//    ],
-//    languageOptions: {
-//        // other options...
-//        parserOptions: {
-//            project: ['./tsconfig.node.json', './tsconfig.app.json'],
-//            tsconfigRootDir: import.meta.dirname,
-//        },
-//    },
-//})
