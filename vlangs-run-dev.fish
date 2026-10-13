@@ -9,19 +9,19 @@ if not test -d vlangsreact.client
     end
 end
 
-echo "Starting development servers (no Docker)..."
-echo "Building React once..."
+echo "Starting development servers (Debug mode with strict checking)..."
+echo "Building React with strict checking..."
 cd vlangsreact.client
-npm run build
+npm run build -- --mode development
 cd ..
 
-echo "Server:  dotnet run (http://localhost:5000)"
+echo "Server:  dotnet run -c Debug (http://localhost:5000)"
 echo "Client:  npm run dev (http://localhost:3000)"
 echo ""
 
-# Start server in background
+# Start server in background with Debug config
 cd VLangsReact.Server
-dotnet run &
+dotnet run -c Debug &
 cd ..
 
 # Start client
@@ -31,7 +31,3 @@ npm run dev
 
 # Cleanup on exit
 pkill -f "dotnet run" 2>/dev/null
-echo "✓ Done!"
-echo "  Server:  http://localhost:5000"
-echo "  Client:  $URL"
-printf "⏱ Total time: %02d:%02d\n" $minutes $seconds
