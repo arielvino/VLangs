@@ -5,6 +5,7 @@ import { LANGUAGE_OPTIONS, type LanguageOption } from './LanguageSelector';
 import LanguageSelect from './LanguageSelector';
 import FileUpload from './FileUpload';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+import EpubReader from '../../../data/EpubReader';
 import idbManager from '../../../data/storage/idbStorage';
 import type { StorageInterface } from '../../../data/storage/StorageInterface';
 import { useDictionary } from '../../localization/Strings';
@@ -30,6 +31,7 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
     const [content, setContent] = useState<ArrayBuffer | null>(null);
     const [isInputValid, setInputValid] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [format, setFormat] = useState<'pdf' | 'epub'>('pdf');
     const [totalPages, setTotalPages] = useState<number | undefined>(undefined);
 
     const dict = useDictionary();
@@ -191,16 +193,22 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
 
                                         setLoading(true);
                                         setNewTabPath(file.name);
+                                        setTotalPages(undefined);
+                                        const isEpub = /\.epub$/i.test(file.name) || file.type === 'application/epub+zip';
+                                        setFormat(isEpub ? 'epub' : 'pdf');
 
                                         const reader = new FileReader();
                                         reader.onload = async () => {
                                             const result = reader.result;
                                             if (result instanceof ArrayBuffer) {
                                                 setContent(result.slice(0));
-                                                getDocument(result!).promise.then((doc) => {
-                                                    setTotalPages(doc.numPages);
-                                                    setLoading(false);
-                                                });
+                                                const pageCount = isEpub
+                                                    ? EpubReader.getPageCount(result.slice(0))
+                                                    : getDocument(result.slice(0)).promise.then(doc => doc.numPages);
+                                                pageCount.then(setTotalPages).catch(err => {
+                                                    console.error('Failed to read file:', err);
+                                                    setContent(null);
+                                                }).finally(() => setLoading(false));
                                             }
                                         };
                                         reader.readAsArrayBuffer(file);
@@ -280,7 +288,7 @@ export const TabCreation: React.FC<TabCreationProps> = ({ onCreate, onCancel }) 
                                         targetLanguage: targetLanguage,
                                         page: 1,
                                         totalPages: totalPages!,
-                                        format: 'pdf'
+                                        format
                                     };
 
                                     storage.addTab(tab).then((ok) => {

@@ -22,6 +22,7 @@ const FileUpload: React.FC<Props> = ({ onFileSelect }) => {
                 type="file"
                 ref={inputRef}
                 hidden
+                accept=".pdf,.epub,application/pdf,application/epub+zip"
                 onChange={handleChange}
             />
             <Button
