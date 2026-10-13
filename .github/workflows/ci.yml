@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  client:
+    name: Client (lint, typecheck, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vlangsreact.client
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: vlangsreact.client/package-lock.json
+
+      - run: npm ci
+
+      # Non-blocking until the existing strict-ish lint errors are cleaned up.
+      # Remove continue-on-error once `npm run lint` is clean.
+      - name: ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Typecheck and build
+        run: npm run build
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true
+
+  server:
+    name: Server (format, build)
+    runs-on: ubuntu-latest
+    env:
+      # Skips the csproj target that rebuilds the React app into wwwroot
+      DOTNET_RUNNING_IN_CONTAINER: "true"
+      DOTNET_NOLOGO: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: nuget-
+
+      - run: dotnet restore VLangsReact.Server/VLangsReact.Server.csproj
+
+      # Non-blocking until the codebase has been formatted once (`dotnet format`).
+      - name: Check formatting
+        run: dotnet format VLangsReact.Server/VLangsReact.Server.csproj --verify-no-changes --no-restore
+        continue-on-error: true
+
+      - name: Build
+        run: dotnet build VLangsReact.Server/VLangsReact.Server.csproj --no-restore -c Release
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./dockerfile.server
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
